@@ -678,6 +678,12 @@ buildTyping();
 
 // SCRAMBLE
 let scrambleBuilt=false,sList=[],sIdx=0,sAnswer=[],sTiles=[];
+function getHebrewLettersOnly(word){
+  return [...word].filter(ch=>/[\u05D0-\u05EA]/.test(ch));
+}
+function getScrambleTarget(w){
+  return getHebrewLettersOnly(w.hebrew).join('');
+}
 function buildScramble(){
   scrambleBuilt=true;sList=shuffle([...vocab]);sIdx=0;
   const c=document.getElementById('scramble-prog');c.innerHTML='';
@@ -689,14 +695,14 @@ function showScrambleCard(){
   document.getElementById('scramble-english').textContent=w.english;
   document.getElementById('scramble-counter').textContent=`Word ${sIdx+1} of ${sList.length}`;
   document.getElementById('scramble-feedback').className='feedback-msg';
-  sAnswer=[];sTiles=shuffle([...w.hebrew]);
+  sAnswer=[];sTiles=shuffle(getHebrewLettersOnly(w.hebrew));
   renderScramble(w);
 }
 function countIn(arr,v){return arr.filter(x=>x===v).length;}
 function renderScramble(w){
   const ans=document.getElementById('answer-slots'),lets=document.getElementById('scramble-letters');
   ans.innerHTML='';lets.innerHTML='';
-  const total=[...w.hebrew].length;
+  const total=getHebrewLettersOnly(w.hebrew).length;
   for(let i=0;i<total;i++){
     const sl=document.createElement('div');
     sl.className='answer-slot'+(sAnswer[i]?' filled':'');
@@ -715,7 +721,7 @@ function renderScramble(w){
 }
 function addToAnswer(ch){
   const w=sList[sIdx];
-  if(sAnswer.length>=[...w.hebrew].length)return;
+  if(sAnswer.length>=getHebrewLettersOnly(w.hebrew).length)return;
   if(countIn(sAnswer,ch)>=countIn(sTiles,ch))return;
   sAnswer.push(ch);renderScramble(w);
 }
@@ -723,8 +729,9 @@ function removeFromAnswer(i){sAnswer.splice(i,1);renderScramble(sList[sIdx]);}
 function clearScramble(){sAnswer=[];renderScramble(sList[sIdx]);}
 function checkScramble(){
   const w=sList[sIdx],fb=document.getElementById('scramble-feedback');
-  if(sAnswer.length<[...w.hebrew].length){fb.textContent='Place all letters first!';fb.className='feedback-msg show feedback-wrong';return;}
-  if(sAnswer.join('')===w.hebrew){
+  const target=getScrambleTarget(w);
+  if(sAnswer.length<target.length){fb.textContent='Place all letters first!';fb.className='feedback-msg show feedback-wrong';return;}
+  if(sAnswer.join('')===target){
     fb.textContent='✓ Correct!';fb.className='feedback-msg show feedback-correct';
     document.getElementById('sdot-'+sIdx).className='prog-dot done';
     setTimeout(nextScramble,1000);
