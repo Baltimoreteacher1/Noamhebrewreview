@@ -50,6 +50,7 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f8f6f2; colo
 .feedback-msg.show { display: block; }
 .feedback-correct { background: #e1f5ee; color: #0F6E56; }
 .feedback-wrong { background: #fcebeb; color: #A32D2D; }
+.clue-chip { margin-top: 0.45rem; padding: 0.44rem 0.65rem; border-radius: 8px; background: #fff7e6; color: #633806; border: 1px solid #f3d7a4; font-size: 0.82rem; line-height: 1.35; }
 
 /* VOCAB TABLE */
 .vocab-table-wrap { overflow-x: auto; }
@@ -119,19 +120,38 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f8f6f2; colo
 .letter-tile.used { background: #d0d0d0; border-color: #d0d0d0; color: #aaa; cursor: default; transform: none; }
 .scramble-prog { display: flex; gap: 5px; margin-bottom: 1.1rem; }
 
-/* MEMORY */
-.memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; margin-bottom: 1.1rem; }
-.mem-card { aspect-ratio: 1; border-radius: 9px; cursor: pointer; }
-.mem-inner { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.4s; }
-.mem-inner.flipped { transform: rotateY(180deg); }
-.mem-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 9px; display: flex; align-items: center; justify-content: center; padding: 4px; text-align: center; border: 2px solid; }
-.mem-front { background: #17324D; border-color: #387F84; color: white; font-size: 1.2rem; }
-.mem-back-heb { background: #e8f0f6; border-color: #387F84; color: #17324D; font-size: 0.95rem; direction: rtl; transform: rotateY(180deg); font-weight: 500; }
-.mem-back-eng { background: #e1f5ee; border-color: #1D9E75; color: #0F6E56; font-size: 0.7rem; transform: rotateY(180deg); font-weight: 500; line-height: 1.3; }
-.mem-face.matched { background: #1D9E75 !important; border-color: #1D9E75 !important; color: white !important; }
-.memory-stats { display: flex; gap: 1.25rem; margin-bottom: 0.9rem; font-size: 0.84rem; color: #666; flex-wrap: wrap; }
-.memory-stats strong { color: #17324D; }
-
+/* DUNK TANK */
+.dunk-stats { display: flex; gap: 1.1rem; margin-bottom: 0.9rem; font-size: 0.84rem; color: #666; flex-wrap: wrap; align-items: center; }
+.dunk-stats strong { color: #17324D; }
+.dunk-card { background: white; border-radius: 14px; border: 1px solid #e0ddd6; padding: 1.2rem; margin-bottom: 0.9rem; }
+.dunk-stage { position: relative; min-height: 250px; border-radius: 16px; overflow: hidden; background: linear-gradient(180deg,#dff3fb 0%,#f8f6f2 58%,#d3f0ea 100%); border: 1px solid #d6e7ea; margin-bottom: 1rem; }
+.dunk-sign { position: absolute; top: 12px; left: 14px; background: #17324D; color: white; border-radius: 999px; padding: 4px 12px; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.03em; }
+.dunk-tank { position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); width: 210px; height: 118px; border: 4px solid #17324D; border-radius: 14px 14px 20px 20px; background: rgba(56,127,132,0.18); overflow: hidden; }
+.dunk-water { position: absolute; left: 0; right: 0; bottom: 0; height: 58%; background: linear-gradient(180deg,rgba(56,127,132,0.55),rgba(29,158,117,0.75)); }
+.dunk-wave { position: absolute; left: -25%; right: -25%; top: 42%; height: 22px; background: radial-gradient(circle at 12px 12px, rgba(255,255,255,0.75) 0 7px, transparent 8px); background-size: 24px 20px; opacity: 0.7; animation: wave-move 2.6s linear infinite; }
+@keyframes wave-move { from{transform:translateX(0)} to{transform:translateX(24px)} }
+.dunk-seat { position: absolute; left: 50%; bottom: 140px; transform: translateX(-50%); width: 120px; height: 12px; border-radius: 7px; background: #8b5e34; box-shadow: 0 4px 0 #633806; transition: transform 0.35s ease; }
+.dunk-seat.open { transform: translateX(-50%) rotate(-14deg); transform-origin: left center; }
+.dunk-person { position: absolute; left: 50%; bottom: 148px; transform: translateX(-50%); font-size: 2.65rem; transition: transform 0.55s ease, opacity 0.35s; z-index: 3; }
+.dunk-person.dropped { transform: translateX(-50%) translateY(82px) rotate(8deg); }
+.dunk-target { position: absolute; right: 64px; bottom: 92px; width: 74px; height: 74px; border-radius: 50%; background: #fff; border: 6px solid #E24B4A; display: flex; align-items: center; justify-content: center; color: #17324D; font-weight: 800; box-shadow: 0 7px 0 rgba(23,50,77,0.16); transition: transform 0.2s, background 0.2s; }
+.dunk-target::after { content: ''; width: 28px; height: 28px; border-radius: 50%; border: 5px solid #E24B4A; background: #fff7e6; }
+.dunk-target.hit { transform: scale(0.92); background: #fef2f2; }
+.dunk-ball { position: absolute; left: 44px; bottom: 74px; width: 28px; height: 28px; border-radius: 50%; background: #fbbf24; border: 3px solid #b45309; display: none; }
+.dunk-ball.throwing { display: block; animation: dunk-throw 0.52s ease-out forwards; }
+@keyframes dunk-throw { 0%{left:44px;bottom:74px;transform:scale(1)} 60%{left:calc(100% - 112px);bottom:160px;transform:scale(0.88)} 100%{left:calc(100% - 102px);bottom:98px;transform:scale(0.72)} }
+.dunk-splash { position: absolute; left: 50%; bottom: 56px; transform: translateX(-50%); font-size: 2.2rem; opacity: 0; pointer-events: none; }
+.dunk-splash.show { animation: splash-pop 0.8s ease-out; }
+@keyframes splash-pop { 0%{opacity:0;transform:translateX(-50%) scale(0.4)} 30%{opacity:1;transform:translateX(-50%) scale(1.2)} 100%{opacity:0;transform:translateX(-50%) scale(1.45)} }
+.dunk-question { background: #fff; border-radius: 12px; padding: 1rem 1.2rem; border: 1px solid #e0ddd6; }
+.dunk-hebrew { text-align: center; direction: rtl; font-size: 2rem; color: #17324D; margin: 0.45rem 0 0.85rem; }
+.dunk-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.dunk-choice { padding: 0.65rem 0.85rem; border: 2px solid #e0ddd6; border-radius: 10px; cursor: pointer; font-size: 0.88rem; background: white; transition: all 0.2s; text-align: center; }
+.dunk-choice:hover:not(:disabled) { border-color: #387F84; background: #f0f8f7; }
+.dunk-choice.correct { border-color: #1D9E75; background: #e1f5ee; color: #0F6E56; font-weight: 700; }
+.dunk-choice.wrong { border-color: #E24B4A; background: #fcebeb; color: #A32D2D; }
+.dunk-choice:disabled { cursor: not-allowed; }
+.dunk-result { text-align: center; font-weight: 600; min-height: 32px; padding-top: 0.45rem; }
 /* QUIZ */
 .quiz-card { background: white; border-radius: 12px; border: 1px solid #e0ddd6; padding: 1.35rem; margin-bottom: 0.9rem; }
 .quiz-hebrew { font-size: 2.3rem; direction: rtl; text-align: center; margin: 0.7rem 0; color: #17324D; }
@@ -267,7 +287,7 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f8f6f2; colo
   <button class="tab-btn" onclick="switchTab('match',event)">🔗 Match</button>
   <button class="tab-btn" onclick="switchTab('typing',event)">⌨️ Translate</button>
   <button class="tab-btn" onclick="switchTab('scramble',event)">🔀 Scramble</button>
-  <button class="tab-btn" onclick="switchTab('memory',event)">🧠 Memory</button>
+  <button class="tab-btn" onclick="switchTab('dunk',event)">💦 Dunk Tank</button>
   <button class="tab-btn" onclick="switchTab('hangman',event)">🪢 Hangman</button>
   <button class="tab-btn" onclick="switchTab('quiz',event)">⚡ Quiz</button>
   <button class="tab-btn" onclick="switchTab('baseball',event)">⚾ Baseball</button>
@@ -331,6 +351,7 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f8f6f2; colo
     <div class="match-col"><h3>Hebrew</h3><div id="match-hebrew-col"></div></div>
     <div class="match-col"><h3>English</h3><div id="match-eng-col"></div></div>
   </div>
+  <div class="feedback-msg" id="match-feedback"></div>
   <div id="match-complete-msg" style="display:none;text-align:center;padding:0.85rem;background:#e1f5ee;border-radius:10px;color:#0F6E56;font-weight:500;">🎉 Perfect! <button class="btn btn-outline btn-sm" style="margin-left:7px;" onclick="initMatch()">Play again</button></div>
 </div>
 
@@ -376,18 +397,34 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f8f6f2; colo
   </div>
 </div>
 
-<!-- MEMORY -->
-<div class="tab-panel" id="tab-memory">
-  <div class="section-title">🧠 Memory Match</div>
-  <div class="section-sub">Find Hebrew/English pairs. Flip two at a time — match all 8 pairs!</div>
-  <div class="memory-stats">
-    <span>Pairs found: <strong id="mem-found">0</strong>/8</span>
-    <span>Flips: <strong id="mem-flips">0</strong></span>
-    <span>Best: <strong id="mem-best">—</strong></span>
+<!-- DUNK TANK -->
+<div class="tab-panel" id="tab-dunk">
+  <div class="section-title">💦 Hebrew Dunk Tank</div>
+  <div class="section-sub">Choose the correct English meaning. Every correct answer hits the target. Five hits = dunk!</div>
+  <div class="dunk-stats">
+    <span>Target hits: <strong id="dunk-hits">0</strong>/5</span>
+    <span>Misses: <strong id="dunk-misses">0</strong></span>
+    <div style="margin-left:auto;"><button class="btn btn-outline btn-sm" onclick="initDunkTank()">New Game</button></div>
   </div>
-  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="mem-progress" style="width:0%"></div></div>
-  <div class="memory-grid" id="memory-grid"></div>
-  <div style="text-align:center;"><button class="btn btn-outline btn-sm" onclick="initMemory()">New Game</button></div>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="dunk-progress" style="width:0%"></div></div>
+  <div class="dunk-card">
+    <div class="dunk-stage">
+      <div class="dunk-sign">DUNK TANK</div>
+      <div class="dunk-ball" id="dunk-ball"></div>
+      <div class="dunk-target" id="dunk-target"></div>
+      <div class="dunk-seat" id="dunk-seat"></div>
+      <div class="dunk-person" id="dunk-person">🧑‍🏫</div>
+      <div class="dunk-tank"><div class="dunk-wave"></div><div class="dunk-water"></div></div>
+      <div class="dunk-splash" id="dunk-splash">💦</div>
+    </div>
+    <div class="dunk-question">
+      <div class="quiz-instruction">What does this Hebrew word mean?</div>
+      <div class="dunk-hebrew" id="dunk-hebrew"></div>
+      <div class="dunk-choices" id="dunk-choices"></div>
+      <div class="dunk-result" id="dunk-result"></div>
+      <div class="feedback-msg" id="dunk-feedback"></div>
+    </div>
+  </div>
 </div>
 
 <!-- HANGMAN -->
@@ -524,9 +561,9 @@ const vocab = [
 
 // XP + COMPLETION
 let xp=0;
-const XP_MAP={vocab:5,flashcards:10,match:15,typing:15,scramble:20,memory:20,hangman:20,quiz:10,baseball:25,test:30};
+const XP_MAP={vocab:5,flashcards:10,match:15,typing:15,scramble:20,dunk:20,hangman:20,quiz:10,baseball:25,test:30};
 let done={};
-const STORAGE_KEY='hebrew_vocab_study_progress_v1';
+const STORAGE_KEY='hebrew_vocab_study_progress_v2';
 function saveProgress(){
   try{localStorage.setItem(STORAGE_KEY,JSON.stringify({xp,done}));}catch(e){}
 }
@@ -534,7 +571,8 @@ function loadProgress(){
   try{
     const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
     if(saved&&typeof saved.xp==='number'&&saved.done&&typeof saved.done==='object'){
-      xp=saved.xp;done=saved.done;
+      done=Object.fromEntries(Object.entries(saved.done).filter(([key,val])=>XP_MAP[key]&&val));
+      xp=Object.keys(done).reduce((sum,key)=>sum+(done[key]?(XP_MAP[key]||0):0),0);
     }
   }catch(e){xp=0;done={};}
 }
@@ -576,7 +614,7 @@ function resetAllGames(){
   initMatch();
   buildTyping();
   scrambleBuilt=false;sList=[];sIdx=0;sAnswer=[];sTiles=[];buildScramble();
-  initMemory();
+  initDunkTank();
   hmList=[];hmIdx=0;initHangman();
   qList=shuffle([...vocab]);qIdx=0;qStreak=0;qScore=0;qAnswered=false;
   document.getElementById('quiz-streak').textContent='0';
@@ -588,6 +626,27 @@ function resetAllGames(){
   testBuilt=false;testQ=[];buildTest();
 }
 function shuffle(a){return [...a].sort(()=>Math.random()-0.5);}
+function plainEnglish(text){return String(text).replace(/\([^)]*\)/g,'').replace(/[!.,]/g,'').replace(/\s+/g,' ').trim();}
+function englishClue(answer,attempt=1){
+  const clean=plainEnglish(answer);
+  const words=clean.split(' ').filter(Boolean);
+  const first=(words[0]||clean||'?')[0]||'?';
+  if(attempt<=1)return `Clue: the English answer starts with "${first.toUpperCase()}".`;
+  if(attempt===2)return `Clue: it is ${words.length} word${words.length===1?'':'s'} long.`;
+  return `Clue: the answer is “${answer}”.`;
+}
+function hebrewLettersOnly(word){return [...String(word)].filter(ch=>/[\u05D0-\u05EA]/.test(ch));}
+function hebrewClue(word,attempt=1){
+  const letters=hebrewLettersOnly(word);
+  if(!letters.length)return 'Clue: look back at the word list.';
+  if(attempt<=1)return `Clue: the first Hebrew letter is ${letters[0]}.`;
+  if(attempt===2)return `Clue: it has ${letters.length} Hebrew letter${letters.length===1?'':'s'}.`;
+  return `Clue: the Hebrew letters are ${letters.join(' · ')}.`;
+}
+function showFeedback(id,text,type='wrong'){
+  const el=document.getElementById(id);if(!el)return;
+  el.innerHTML=text;el.className='feedback-msg show '+(type==='correct'?'feedback-correct':'feedback-wrong');
+}
 loadProgress();
 
 // TABS
@@ -598,7 +657,7 @@ function switchTab(id,evt){
   if(evt)evt.currentTarget.classList.add('active');
   if(id==='test'&&!testBuilt)buildTest();
   if(id==='scramble'&&!scrambleBuilt)buildScramble();
-  if(id==='memory')initMemory();
+  if(id==='dunk')initDunkTank();
   if(id==='baseball')initBaseball();
   if(id==='hangman')initHangman();
 }
@@ -640,10 +699,11 @@ function markCard(ok){if(ok)fcLearned.add(fcIdx);else fcLearned.delete(fcIdx);ne
 showCard();
 
 // MATCHING
-let mSel=null,mType=null,mDone=0;
+let mSel=null,mType=null,mDone=0,mWrong=0;
 function initMatch(){
-  mSel=null;mType=null;mDone=0;
+  mSel=null;mType=null;mDone=0;mWrong=0;
   document.getElementById('match-complete-msg').style.display='none';
+  const mf=document.getElementById('match-feedback');if(mf){mf.className='feedback-msg';mf.textContent='';}
   document.getElementById('match-score-display').textContent='0 / 7';
   document.getElementById('match-progress').style.width='0%';
   const s=shuffle(vocab).slice(0,7);
@@ -675,15 +735,17 @@ function selectMatch(el){
     document.getElementById('match-progress').style.width=(mDone/7*100)+'%';
     if(mDone===7){document.getElementById('match-complete-msg').style.display='block';awardXP('match');}
   }else{
-    a.classList.add('wrong');b.classList.add('wrong');
-    setTimeout(()=>{a.classList.remove('wrong','selected');b.classList.remove('wrong','selected');},600);
+    a.classList.add('wrong');b.classList.add('wrong');mWrong++;
+    const hebEl=a.dataset.side==='heb'?a:b;
+    showFeedback('match-feedback','✗ Not a match. '+englishClue(hebEl.dataset.key,mWrong));
+    setTimeout(()=>{a.classList.remove('wrong','selected');b.classList.remove('wrong','selected');},900);
   }
   mSel=null;mType=null;
 }
 initMatch();
 
 // TYPING
-let tList=shuffle([...vocab]),tIdx=0;
+let tList=shuffle([...vocab]),tIdx=0,tMistakes=0;
 function buildTyping(){
   tList=shuffle([...vocab]);tIdx=0;
   const c=document.getElementById('typing-dots');c.innerHTML='';
@@ -692,6 +754,9 @@ function buildTyping(){
 }
 function showTypingCard(){
   const w=tList[tIdx];
+  tMistakes=0;
+  const typeInput=document.getElementById('type-input');
+  if(typeInput)typeInput.style.display='block';
   document.getElementById('type-prompt').textContent=w.hebrew;
   document.getElementById('type-input').value='';
   document.getElementById('type-input').className='type-input';
@@ -710,8 +775,9 @@ function checkTyping(){
     document.getElementById('dot-'+tIdx).className='prog-dot done';
     setTimeout(nextTyping,1100);
   }else{
+    tMistakes++;
     inp.className='type-input wrong-input';
-    fb.textContent='✗ Not quite — answer: '+w.english;fb.className='feedback-msg show feedback-wrong';
+    fb.textContent='✗ Not quite. '+englishClue(w.english,tMistakes);fb.className='feedback-msg show feedback-wrong';
   }
 }
 function nextTyping(){
@@ -727,7 +793,7 @@ function nextTyping(){
 buildTyping();
 
 // SCRAMBLE
-let scrambleBuilt=false,sList=[],sIdx=0,sAnswer=[],sTiles=[];
+let scrambleBuilt=false,sList=[],sIdx=0,sAnswer=[],sTiles=[],sMistakes=0;
 function getHebrewLettersOnly(word){
   return [...word].filter(ch=>/[\u05D0-\u05EA]/.test(ch));
 }
@@ -745,6 +811,7 @@ function showScrambleCard(){
   document.getElementById('scramble-english').textContent=w.english;
   document.getElementById('scramble-counter').textContent=`Word ${sIdx+1} of ${sList.length}`;
   document.getElementById('scramble-feedback').className='feedback-msg';
+  sMistakes=0;
   sAnswer=[];sTiles=shuffle(getHebrewLettersOnly(w.hebrew));
   renderScramble(w);
 }
@@ -785,7 +852,7 @@ function checkScramble(){
     fb.textContent='✓ Correct!';fb.className='feedback-msg show feedback-correct';
     document.getElementById('sdot-'+sIdx).className='prog-dot done';
     setTimeout(nextScramble,1000);
-  }else{fb.textContent='✗ Not quite — try rearranging!';fb.className='feedback-msg show feedback-wrong';}
+  }else{sMistakes++;fb.textContent='✗ Not quite — try rearranging. '+hebrewClue(w.hebrew,sMistakes);fb.className='feedback-msg show feedback-wrong';}
 }
 function nextScramble(){
   const d=document.getElementById('sdot-'+sIdx);if(!d.classList.contains('done'))d.className='prog-dot';
@@ -793,49 +860,64 @@ function nextScramble(){
   else{document.getElementById('scramble-english').textContent='🎉 All done!';awardXP('scramble');}
 }
 
-// MEMORY
-let memCards=[],memFlipped=[],memFound=0,memFlips=0,memBest=null,memLocked=false;
-function initMemory(){
-  memFlipped=[];memFound=0;memFlips=0;memLocked=false;
-  document.getElementById('mem-found').textContent='0';
-  document.getElementById('mem-flips').textContent='0';
-  document.getElementById('mem-progress').style.width='0%';
-  const sample=shuffle(vocab).slice(0,8);
-  const pairs=[];
-  sample.forEach(w=>{
-    pairs.push({id:w.english,type:'heb',text:w.hebrew});
-    pairs.push({id:w.english,type:'eng',text:w.english});
-  });
-  memCards=shuffle(pairs);
-  const grid=document.getElementById('memory-grid');grid.innerHTML='';
-  memCards.forEach((c,i)=>{
-    const div=document.createElement('div');div.className='mem-card';
-    const inner=document.createElement('div');inner.className='mem-inner';inner.id='mc-'+i;
-    const front=document.createElement('div');front.className='mem-face mem-front';front.textContent='?';
-    const back=document.createElement('div');back.className='mem-face '+(c.type==='heb'?'mem-back-heb':'mem-back-eng');back.textContent=c.text;
-    inner.appendChild(front);inner.appendChild(back);div.appendChild(inner);
-    div.onclick=()=>flipMem(i);grid.appendChild(div);
+// DUNK TANK
+let dunkList=[],dunkIdx=0,dunkHits=0,dunkMisses=0,dunkAnswered=false,dunkCurrent=null;
+function initDunkTank(){
+  dunkList=shuffle([...vocab]);dunkIdx=0;dunkHits=0;dunkMisses=0;dunkAnswered=false;
+  const person=document.getElementById('dunk-person'),seat=document.getElementById('dunk-seat'),splash=document.getElementById('dunk-splash');
+  if(person)person.className='dunk-person';
+  if(seat)seat.className='dunk-seat';
+  if(splash)splash.className='dunk-splash';
+  updateDunkStats();showDunkQuestion();
+}
+function updateDunkStats(){
+  const hits=document.getElementById('dunk-hits'),misses=document.getElementById('dunk-misses'),prog=document.getElementById('dunk-progress');
+  if(hits)hits.textContent=dunkHits;
+  if(misses)misses.textContent=dunkMisses;
+  if(prog)prog.style.width=(Math.min(dunkHits,5)/5*100)+'%';
+}
+function showDunkQuestion(){
+  dunkAnswered=false;
+  const fb=document.getElementById('dunk-feedback');if(fb){fb.className='feedback-msg';fb.textContent='';}
+  const result=document.getElementById('dunk-result');if(result){result.textContent='';result.className='dunk-result';}
+  const target=document.getElementById('dunk-target');if(target)target.classList.remove('hit');
+  dunkCurrent=dunkList[dunkIdx%dunkList.length];
+  document.getElementById('dunk-hebrew').textContent=dunkCurrent.hebrew;
+  const others=shuffle(vocab.filter(v=>v.english!==dunkCurrent.english));
+  const choices=shuffle([dunkCurrent,others[0],others[1],others[2]]);
+  const wrap=document.getElementById('dunk-choices');wrap.innerHTML='';
+  choices.forEach(c=>{
+    const btn=document.createElement('button');btn.className='dunk-choice';btn.textContent=c.english;
+    btn.onclick=()=>answerDunk(btn,c.english,dunkCurrent.english);
+    wrap.appendChild(btn);
   });
 }
-function flipMem(i){
-  if(memLocked)return;
-  const el=document.getElementById('mc-'+i);
-  if(!el||el.classList.contains('flipped')||memFlipped.includes(i))return;
-  el.classList.add('flipped');memFlipped.push(i);memFlips++;
-  document.getElementById('mem-flips').textContent=memFlips;
-  if(memFlipped.length===2){
-    memLocked=true;
-    const [a,b]=memFlipped;
-    if(memCards[a].id===memCards[b].id&&memCards[a].type!==memCards[b].type){
-      ['mc-'+a,'mc-'+b].forEach(id=>{document.getElementById(id).querySelectorAll('.mem-face').forEach(f=>f.classList.add('matched'));});
-      memFound++;
-      document.getElementById('mem-found').textContent=memFound;
-      document.getElementById('mem-progress').style.width=(memFound/8*100)+'%';
-      memFlipped=[];memLocked=false;
-      if(memFound===8){if(!memBest||memFlips<memBest){memBest=memFlips;document.getElementById('mem-best').textContent=memFlips+' flips';}awardXP('memory');}
-    }else{
-      setTimeout(()=>{['mc-'+a,'mc-'+b].forEach(id=>document.getElementById(id).classList.remove('flipped'));memFlipped=[];memLocked=false;},950);
-    }
+function animateDunkThrow(hit=false){
+  const ball=document.getElementById('dunk-ball'),target=document.getElementById('dunk-target');
+  if(ball){ball.className='dunk-ball';void ball.offsetWidth;ball.className='dunk-ball throwing';}
+  if(hit&&target){setTimeout(()=>target.classList.add('hit'),360);setTimeout(()=>target.classList.remove('hit'),820);}
+}
+function dunkDrop(){
+  const person=document.getElementById('dunk-person'),seat=document.getElementById('dunk-seat'),splash=document.getElementById('dunk-splash');
+  if(seat)seat.classList.add('open');
+  if(person)person.classList.add('dropped');
+  if(splash){splash.className='dunk-splash';void splash.offsetWidth;splash.className='dunk-splash show';}
+}
+function answerDunk(btn,chosen,correct){
+  if(dunkAnswered)return;dunkAnswered=true;
+  document.querySelectorAll('.dunk-choice').forEach(b=>b.disabled=true);
+  const result=document.getElementById('dunk-result');
+  if(chosen===correct){
+    btn.classList.add('correct');dunkHits++;animateDunkThrow(true);updateDunkStats();
+    if(result)result.textContent=dunkHits>=5?'Bullseye — dunked! 💦':'Hit the target!';
+    if(dunkHits>=5){dunkDrop();awardXP('dunk');setTimeout(initDunkTank,2200);}
+    else{setTimeout(()=>{dunkIdx++;showDunkQuestion();},1200);}
+  }else{
+    btn.classList.add('wrong');dunkMisses++;animateDunkThrow(false);updateDunkStats();
+    document.querySelectorAll('.dunk-choice').forEach(b=>{if(b.textContent===correct)b.classList.add('correct');});
+    if(result)result.textContent='Missed the target — try the clue.';
+    showFeedback('dunk-feedback','✗ '+englishClue(correct,dunkMisses));
+    setTimeout(()=>{dunkIdx++;showDunkQuestion();},2200);
   }
 }
 
@@ -903,6 +985,7 @@ function guessHM(letter){
   }
   renderHMLives();renderHMBlanks();renderHMKeys();
   const fb=document.getElementById('hm-feedback');
+  if(!inWord && hmWrong<6){fb.textContent='Not in this word. '+hebrewClue(hmWord,hmWrong);fb.className='feedback-msg show feedback-wrong';}
   // check win
   const allRevealed=baseChars.every(c=>hmGuessed.includes(c));
   if(allRevealed){
@@ -944,7 +1027,7 @@ function answerQuiz(btn,chosen,correct){
   }else{
     btn.classList.add('wrong-choice');qStreak=0;
     document.querySelectorAll('.choice-btn').forEach(b=>{if(b.textContent===correct)b.classList.add('correct-choice');});
-    fb.textContent='✗ Incorrect. Correct: '+correct;fb.className='feedback-msg show feedback-wrong';
+    fb.textContent='✗ Incorrect. Correct: '+correct+' · '+englishClue(correct,1);fb.className='feedback-msg show feedback-wrong';
   }
   document.getElementById('quiz-streak').textContent=qStreak;
   document.getElementById('quiz-score-display').textContent=qScore;
@@ -1017,7 +1100,7 @@ function bbAnswer(btn,chosen,correct){
     if(bbStrikes>=3){
       bbOuts++;bbStrikes=0;
       if(bbOuts>=3){bbOuts=0;bbInning++;bbBases=[false,false,false];res.textContent='Side retired! New inning '+bbInning+' ⚾';}
-      else res.textContent='Strikeout! '+(3-bbOuts)+' outs left this inning.';
+      else res.textContent='Strikeout! '+(3-bbOuts)+' outs left this inning. '+englishClue(correct,3);
     }else{
       res.textContent='Strike '+bbStrikes+'! '+(3-bbStrikes)+' more and you\'re out!';
     }
