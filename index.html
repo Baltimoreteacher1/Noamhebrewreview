@@ -15,6 +15,8 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f8f6f2; colo
 .completion-milestones { display: flex; justify-content: space-between; margin-top: 4px; }
 .milestone { font-size: 0.68rem; color: rgba(255,255,255,0.42); transition: color 0.4s; }
 .milestone.reached { color: #6ee7c7; font-weight: 600; }
+.reset-progress-btn { margin-left: 0.75rem; padding: 2px 9px; border: 1px solid rgba(255,255,255,0.45); border-radius: 999px; background: rgba(255,255,255,0.08); color: white; font-size: 0.72rem; cursor: pointer; transition: all 0.2s; }
+.reset-progress-btn:hover { background: rgba(255,255,255,0.18); }
 
 .app-header { background: #1e3f63; color: white; padding: 0.9rem 1.5rem; display: flex; align-items: center; }
 .app-header h1 { font-size: 1.15rem; font-weight: 600; }
@@ -237,7 +239,7 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f8f6f2; colo
 <div class="completion-banner">
   <div class="completion-top">
     <span>🎓 Overall Study Progress</span>
-    <span id="completion-pct">0% — keep going!</span>
+    <span><span id="completion-pct">0% — keep going!</span><button class="reset-progress-btn" onclick="resetAllProgress()" title="Restart all games and reset progress">↺ Reset</button></span>
   </div>
   <div class="completion-track">
     <div class="completion-fill" id="completion-fill" style="width:0%"></div>
@@ -281,6 +283,9 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f8f6f2; colo
       <thead><tr><th>English</th><th>Hebrew</th><th>Unit</th></tr></thead>
       <tbody id="vocab-tbody"></tbody>
     </table>
+  </div>
+  <div style="text-align:center;margin-top:1rem;">
+    <button class="btn btn-outline btn-sm" onclick="awardXP('vocab')">Mark Word List Reviewed ✓</button>
   </div>
 </div>
 
@@ -520,23 +525,70 @@ const vocab = [
 // XP + COMPLETION
 let xp=0;
 const XP_MAP={vocab:5,flashcards:10,match:15,typing:15,scramble:20,memory:20,hangman:20,quiz:10,baseball:25,test:30};
-const done={};
+let done={};
+const STORAGE_KEY='hebrew_vocab_study_progress_v1';
+function saveProgress(){
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify({xp,done}));}catch(e){}
+}
+function loadProgress(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
+    if(saved&&typeof saved.xp==='number'&&saved.done&&typeof saved.done==='object'){
+      xp=saved.xp;done=saved.done;
+    }
+  }catch(e){xp=0;done={};}
+}
 function awardXP(act){
-  if(done[act])return; done[act]=true; xp+=XP_MAP[act]||5;
-  document.getElementById('xp-display').textContent='⭐ '+xp+' XP';
+  if(done[act]){updateCompletion();return;}
+  done[act]=true;
+  xp=Object.keys(done).reduce((sum,key)=>sum+(done[key]?(XP_MAP[key]||0):0),0);
+  saveProgress();
   updateCompletion();
 }
 function updateCompletion(){
-  const total=Object.keys(XP_MAP).length, n=Object.keys(done).length;
+  const total=Object.keys(XP_MAP).length;
+  const n=Object.keys(XP_MAP).filter(key=>done[key]).length;
   const pct=Math.round(n/total*100);
-  document.getElementById('completion-fill').style.width=pct+'%';
-  document.getElementById('completion-pct').textContent=pct+'% complete'+(pct===100?' 🏆':'');
+  const fill=document.getElementById('completion-fill');
+  const label=document.getElementById('completion-pct');
+  if(fill)fill.style.width=pct+'%';
+  if(label)label.textContent=pct+'% complete'+(pct===100?' 🏆':' — keep going!');
+  const xpDisplay=document.getElementById('xp-display');
+  if(xpDisplay)xpDisplay.textContent='⭐ '+xp+' XP';
   [0,25,50,75,100].forEach(m=>{
-    if(pct>=m) document.getElementById('ms-'+m).classList.add('reached');
+    const ms=document.getElementById('ms-'+m);
+    if(!ms)return;
+    if(pct>=m)ms.classList.add('reached');
+    else ms.classList.remove('reached');
   });
 }
-
+function resetAllProgress(){
+  xp=0;done={};
+  try{localStorage.removeItem(STORAGE_KEY);}catch(e){}
+  updateCompletion();
+  resetAllGames();
+}
+function resetAllGames(){
+  fcList=[...vocab];fcIdx=0;fcUnit='all';fcLearned=new Set();
+  ['all','53','54'].forEach(x=>{const p=document.getElementById('pill-'+x);if(p)p.classList.remove('active');});
+  const allPill=document.getElementById('pill-all');if(allPill)allPill.classList.add('active');
+  showCard();
+  initMatch();
+  buildTyping();
+  scrambleBuilt=false;sList=[];sIdx=0;sAnswer=[];sTiles=[];buildScramble();
+  initMemory();
+  hmList=[];hmIdx=0;initHangman();
+  qList=shuffle([...vocab]);qIdx=0;qStreak=0;qScore=0;qAnswered=false;
+  document.getElementById('quiz-streak').textContent='0';
+  document.getElementById('quiz-score-display').textContent='0';
+  showQuiz();
+  initBaseball();
+  document.getElementById('test-results-area').style.display='none';
+  document.getElementById('test-body').innerHTML='';
+  testBuilt=false;testQ=[];buildTest();
+}
 function shuffle(a){return [...a].sort(()=>Math.random()-0.5);}
+loadProgress();
 
 // TABS
 function switchTab(id,evt){
@@ -549,7 +601,6 @@ function switchTab(id,evt){
   if(id==='memory')initMemory();
   if(id==='baseball')initBaseball();
   if(id==='hangman')initHangman();
-  awardXP(id);
 }
 
 // VOCAB TABLE
@@ -560,7 +611,6 @@ function switchTab(id,evt){
     tr.innerHTML=`<td>${w.english}</td><td class="heb-cell">${w.hebrew}</td><td><span class="unit-badge unit-${w.unit.replace('.','')}">${w.unit}</span></td>`;
     tb.appendChild(tr);
   });
-  awardXP('vocab');
 })();
 
 // FLASHCARDS
@@ -1047,6 +1097,7 @@ function gradeTest(){
   awardXP('test');
 }
 function retakeTest(){document.getElementById('test-results-area').style.display='none';document.getElementById('test-body').innerHTML='';testBuilt=false;buildTest();}
+updateCompletion();
 </script>
 </body>
 </html>
