@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hebrew Vocabulary Study — Units 5.3 & 5.4</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f8f6f2; color: #2c2c2a; min-height: 100vh; }
+
+.completion-banner { background: #17324D; padding: 0.65rem 1.5rem 0.85rem; }
+.completion-top { display: flex; justify-content: space-between; color: white; font-size: 0.78rem; margin-bottom: 5px; }
+.completion-track { background: rgba(255,255,255,0.18); border-radius: 10px; height: 11px; overflow: hidden; }
+.completion-fill { height: 100%; background: linear-gradient(90deg,#387F84,#1D9E75); border-radius: 10px; transition: width 0.7s cubic-bezier(.4,0,.2,1); }
+.completion-milestones { display: flex; justify-content: space-between; margin-top: 4px; }
+.milestone { font-size: 0.68rem; color: rgba(255,255,255,0.42); transition: color 0.4s; }
+.milestone.reached { color: #6ee7c7; font-weight: 600; }
+
+.app-header { background: #1e3f63; color: white; padding: 0.9rem 1.5rem; display: flex; align-items: center; }
+.app-header h1 { font-size: 1.15rem; font-weight: 600; }
+.app-header span { font-size: 0.8rem; opacity: 0.6; margin-left: 0.75rem; }
+.xp-badge { margin-left: auto; background: rgba(255,255,255,0.13); border-radius: 20px; padding: 3px 12px; font-size: 0.82rem; font-weight: 600; }
+
+.tab-bar { display: flex; background: #fff; border-bottom: 1px solid #e0ddd6; padding: 0 0.5rem; overflow-x: auto; gap: 2px; scrollbar-width: none; }
+.tab-bar::-webkit-scrollbar { display: none; }
+.tab-btn { padding: 0.7rem 0.9rem; font-size: 0.8rem; font-weight: 500; border: none; background: none; cursor: pointer; color: #888; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s; display: flex; align-items: center; gap: 3px; }
+.tab-btn.active { color: #17324D; border-bottom-color: #387F84; }
+.tab-btn:hover:not(.active) { color: #444; background: #f8f6f2; }
+
+.tab-panel { display: none; padding: 1.5rem; max-width: 780px; margin: 0 auto; }
+.tab-panel.active { display: block; }
+.section-title { font-size: 1.1rem; font-weight: 600; color: #17324D; margin-bottom: 0.25rem; }
+.section-sub { font-size: 0.84rem; color: #666; margin-bottom: 1.2rem; }
+
+.btn { padding: 0.52rem 1.15rem; border-radius: 8px; border: 1.5px solid; font-size: 0.84rem; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+.btn-primary { background: #17324D; color: white; border-color: #17324D; }
+.btn-primary:hover { background: #1e3f63; }
+.btn-outline { background: white; color: #17324D; border-color: #17324D; }
+.btn-outline:hover { background: #f0f4f7; }
+.btn-success { background: #1D9E75; color: white; border-color: #1D9E75; }
+.btn-danger { background: #E24B4A; color: white; border-color: #E24B4A; }
+.btn-sm { padding: 0.32rem 0.8rem; font-size: 0.78rem; }
+
+.progress-bar-wrap { background: #e0ddd6; border-radius: 10px; height: 7px; margin: 0.55rem 0; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: #387F84; border-radius: 10px; transition: width 0.3s; }
+
+.feedback-msg { margin-top: 0.6rem; font-size: 0.86rem; padding: 0.42rem 0.75rem; border-radius: 6px; display: none; }
+.feedback-msg.show { display: block; }
+.feedback-correct { background: #e1f5ee; color: #0F6E56; }
+.feedback-wrong { background: #fcebeb; color: #A32D2D; }
+
+/* VOCAB TABLE */
+.vocab-table-wrap { overflow-x: auto; }
+.vocab-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.vocab-table th { background: #17324D; color: white; padding: 0.55rem 0.9rem; text-align: left; font-weight: 500; font-size: 0.78rem; }
+.vocab-table td { padding: 0.55rem 0.9rem; border-bottom: 1px solid #f0ede6; }
+.vocab-table tr:nth-child(even) td { background: #faf9f6; }
+.vocab-table .heb-cell { direction: rtl; font-size: 1.15rem; }
+.unit-badge { display: inline-block; padding: 2px 7px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; }
+.unit-53 { background: #E1F5EE; color: #0F6E56; }
+.unit-54 { background: #e8f0f6; color: #17324D; }
+
+/* FLASHCARD */
+.flashcard-nav { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.9rem; flex-wrap: wrap; }
+.card-counter { font-size: 0.82rem; color: #888; }
+.unit-pills { display: flex; gap: 5px; }
+.pill-btn { padding: 3px 10px; border-radius: 20px; border: 1.5px solid #e0ddd6; font-size: 0.76rem; cursor: pointer; background: white; color: #666; transition: all 0.2s; }
+.pill-btn.active { background: #17324D; color: white; border-color: #17324D; }
+.flashcard-wrap { perspective: 1000px; margin-bottom: 1.1rem; cursor: pointer; }
+.flashcard { width: 100%; min-height: 190px; position: relative; transform-style: preserve-3d; transition: transform 0.5s; }
+.flashcard.flipped { transform: rotateY(180deg); }
+.card-face { position: absolute; width: 100%; min-height: 190px; backface-visibility: hidden; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; }
+.card-front { background: #17324D; color: white; }
+.card-back { background: #387F84; color: white; transform: rotateY(180deg); }
+.hebrew-text { font-size: 2.6rem; font-weight: 300; direction: rtl; line-height: 1.4; }
+.card-hint { font-size: 0.78rem; opacity: 0.6; margin-top: 0.5rem; }
+.translation-text { font-size: 1.45rem; font-weight: 500; }
+.fc-controls { display: flex; gap: 7px; justify-content: center; flex-wrap: wrap; }
+
+/* MATCHING */
+.match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; margin-bottom: 1.1rem; }
+.match-col { display: flex; flex-direction: column; gap: 6px; }
+.match-col h3 { font-size: 0.75rem; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+.match-item { padding: 0.6rem 0.85rem; background: white; border: 2px solid #e0ddd6; border-radius: 10px; cursor: pointer; font-size: 0.88rem; transition: all 0.2s; user-select: none; }
+.match-item.hebrew-item { direction: rtl; font-size: 1.1rem; }
+.match-item:hover { border-color: #387F84; }
+.match-item.selected { border-color: #17324D; background: #e8f0f6; }
+.match-item.correct { border-color: #1D9E75; background: #e1f5ee; color: #0F6E56; pointer-events: none; }
+.match-item.wrong { border-color: #E24B4A; background: #fcebeb; animation: shake 0.3s; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+
+/* TYPING */
+.typing-card { background: white; border-radius: 12px; border: 1px solid #e0ddd6; padding: 1.35rem; margin-bottom: 0.9rem; }
+.prompt-label { font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.07em; color: #999; margin-bottom: 0.35rem; }
+.prompt-word { font-size: 1.65rem; font-weight: 300; color: #17324D; direction: rtl; margin-bottom: 0.9rem; }
+.type-input-wrap { display: flex; gap: 7px; }
+.type-input { flex: 1; padding: 0.55rem 0.9rem; border: 2px solid #e0ddd6; border-radius: 8px; font-size: 0.97rem; outline: none; transition: border-color 0.2s; }
+.type-input:focus { border-color: #387F84; }
+.type-input.correct-input { border-color: #1D9E75; background: #f0fbf6; }
+.type-input.wrong-input { border-color: #E24B4A; background: #fdf4f4; }
+.typing-progress { display: flex; gap: 5px; margin-bottom: 1.1rem; flex-wrap: wrap; }
+.prog-dot { width: 9px; height: 9px; border-radius: 50%; background: #e0ddd6; transition: background 0.3s; }
+.prog-dot.done { background: #1D9E75; }
+.prog-dot.current { background: #387F84; }
+.bottom-nav { display: flex; gap: 10px; justify-content: space-between; align-items: center; margin-top: 1.1rem; flex-wrap: wrap; }
+
+/* SCRAMBLE */
+.scramble-card { background: white; border-radius: 12px; border: 1px solid #e0ddd6; padding: 1.35rem; margin-bottom: 0.9rem; }
+.scramble-clue { font-size: 0.82rem; color: #666; margin-bottom: 0.3rem; }
+.scramble-english { font-size: 1.2rem; font-weight: 600; color: #17324D; margin-bottom: 1.1rem; }
+.answer-slots { display: flex; gap: 7px; flex-wrap: wrap; justify-content: center; margin-bottom: 1.2rem; min-height: 48px; }
+.answer-slot { width: 42px; height: 42px; border-bottom: 3px solid #17324D; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #17324D; direction: rtl; cursor: pointer; }
+.answer-slot.filled:hover { color: #E24B4A; border-bottom-color: #E24B4A; }
+.scramble-letters { display: flex; gap: 7px; flex-wrap: wrap; justify-content: center; margin-bottom: 1.1rem; min-height: 48px; }
+.letter-tile { width: 42px; height: 42px; background: #17324D; color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; transition: all 0.15s; user-select: none; direction: rtl; border: 2px solid #17324D; }
+.letter-tile:hover:not(.used) { background: #387F84; border-color: #387F84; transform: translateY(-2px); }
+.letter-tile.used { background: #d0d0d0; border-color: #d0d0d0; color: #aaa; cursor: default; transform: none; }
+.scramble-prog { display: flex; gap: 5px; margin-bottom: 1.1rem; }
+
+/* MEMORY */
+.memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; margin-bottom: 1.1rem; }
+.mem-card { aspect-ratio: 1; border-radius: 9px; cursor: pointer; }
+.mem-inner { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.4s; }
+.mem-inner.flipped { transform: rotateY(180deg); }
+.mem-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 9px; display: flex; align-items: center; justify-content: center; padding: 4px; text-align: center; border: 2px solid; }
+.mem-front { background: #17324D; border-color: #387F84; color: white; font-size: 1.2rem; }
+.mem-back-heb { background: #e8f0f6; border-color: #387F84; color: #17324D; font-size: 0.95rem; direction: rtl; transform: rotateY(180deg); font-weight: 500; }
+.mem-back-eng { background: #e1f5ee; border-color: #1D9E75; color: #0F6E56; font-size: 0.7rem; transform: rotateY(180deg); font-weight: 500; line-height: 1.3; }
+.mem-face.matched { background: #1D9E75 !important; border-color: #1D9E75 !important; color: white !important; }
+.memory-stats { display: flex; gap: 1.25rem; margin-bottom: 0.9rem; font-size: 0.84rem; color: #666; flex-wrap: wrap; }
+.memory-stats strong { color: #17324D; }
+
+/* QUIZ */
+.quiz-card { background: white; border-radius: 12px; border: 1px solid #e0ddd6; padding: 1.35rem; margin-bottom: 0.9rem; }
+.quiz-hebrew { font-size: 2.3rem; direction: rtl; text-align: center; margin: 0.7rem 0; color: #17324D; }
+.quiz-instruction { font-size: 0.85rem; color: #888; text-align: center; }
+.choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0.85rem 0; }
+.choice-btn { padding: 0.65rem 0.85rem; background: white; border: 2px solid #e0ddd6; border-radius: 10px; font-size: 0.9rem; cursor: pointer; text-align: center; transition: all 0.2s; }
+.choice-btn:hover:not(:disabled) { border-color: #387F84; background: #f0f8f7; }
+.choice-btn.correct-choice { border-color: #1D9E75; background: #e1f5ee; color: #0F6E56; font-weight: 600; }
+.choice-btn.wrong-choice { border-color: #E24B4A; background: #fcebeb; color: #A32D2D; }
+.choice-btn:disabled { cursor: not-allowed; }
+.streak-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 1.1rem; flex-wrap: wrap; }
+.streak-label { font-size: 0.8rem; color: #888; }
+.streak-count { font-size: 1rem; font-weight: 700; color: #387F84; }
+
+/* ========== BASEBALL ========== */
+.baseball-stadium { background: radial-gradient(ellipse at bottom, #2d5a1b 0%, #163810 55%, #0d1f07 100%); border-radius: 16px; padding: 1.4rem; margin-bottom: 1rem; position: relative; overflow: hidden; min-height: 260px; }
+.stadium-stripes { position: absolute; bottom: 0; left: 0; right: 0; height: 50%; background: repeating-linear-gradient(90deg,rgba(255,255,255,0.03) 0,rgba(255,255,255,0.03) 28px,transparent 28px,transparent 56px); pointer-events: none; }
+.pitcher-label { position: absolute; top: 12px; left: 14px; color: rgba(255,255,255,0.65); font-size: 0.72rem; }
+.pitcher-emoji { position: absolute; bottom: 72px; left: calc(50% - 12px); font-size: 1.9rem; transition: transform 0.15s; }
+.batter-emoji { position: absolute; bottom: 18px; left: calc(50% + 38px); font-size: 1.6rem; }
+.pitch-indicator { position: absolute; bottom: 55px; left: 50%; transform: translateX(-50%); }
+.ball-dot { width: 13px; height: 13px; background: #f5f5dc; border-radius: 50%; border: 2px solid #c8a96e; display: none; }
+.ball-dot.pitching { display: block; animation: pitch-fly 0.45s ease-in forwards; }
+@keyframes pitch-fly { from{transform:scale(1.5) translateY(0);opacity:1;} to{transform:scale(0.3) translateY(-70px);opacity:0;} }
+.diamond { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); width: 115px; height: 115px; }
+.base { position: absolute; width: 14px; height: 14px; background: white; border-radius: 2px; transition: all 0.3s; }
+.base.lit { background: #fbbf24; box-shadow: 0 0 10px #fbbf24; }
+.base-home { bottom: 0; left: calc(50% - 7px); transform: rotate(45deg); }
+.base-first { right: 0; bottom: calc(50% - 7px); transform: rotate(45deg); }
+.base-second { top: 0; left: calc(50% - 7px); transform: rotate(45deg); }
+.base-third { left: 0; bottom: calc(50% - 7px); transform: rotate(45deg); }
+.scoreboard { position: absolute; top: 10px; right: 12px; background: rgba(0,0,0,0.65); border-radius: 10px; padding: 0.55rem 0.85rem; color: white; font-size: 0.78rem; min-width: 100px; }
+.sb-row { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 3px; }
+.sb-row:last-child { margin-bottom: 0; }
+.sb-lbl { opacity: 0.6; }
+.sb-val { font-weight: 700; color: #fbbf24; }
+.bb-question { background: white; border-radius: 12px; padding: 1.2rem 1.4rem; margin-bottom: 0.9rem; border: 1px solid #e0ddd6; }
+.bb-prompt { font-size: 0.84rem; color: #666; margin-bottom: 0.4rem; }
+.bb-hebrew { font-size: 1.9rem; direction: rtl; color: #17324D; margin-bottom: 0.9rem; }
+.bb-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.bb-choice { padding: 0.62rem 0.85rem; border: 2px solid #e0ddd6; border-radius: 10px; cursor: pointer; font-size: 0.88rem; background: white; transition: all 0.2s; text-align: center; }
+.bb-choice:hover:not(:disabled) { border-color: #16a34a; background: #f0fdf4; }
+.bb-choice.hit { border-color: #16a34a; background: #dcfce7; color: #166534; font-weight: 600; animation: hitpop 0.35s; }
+.bb-choice.out { border-color: #E24B4A; background: #fef2f2; color: #991b1b; }
+.bb-choice:disabled { cursor: not-allowed; }
+@keyframes hitpop { 0%{transform:scale(1)} 40%{transform:scale(1.07)} 100%{transform:scale(1)} }
+.bb-result-msg { text-align: center; font-weight: 600; font-size: 0.97rem; padding: 0.4rem; min-height: 30px; }
+.hit-text { color: #166534; animation: pop-in 0.3s; }
+.out-text { color: #991b1b; }
+@keyframes pop-in { from{transform:scale(0.6);opacity:0} to{transform:scale(1);opacity:1} }
+.strikes-row { display: flex; align-items: center; gap: 7px; margin-bottom: 0.7rem; flex-wrap: wrap; }
+.strike-dot { width: 13px; height: 13px; border-radius: 50%; border: 2px solid #d0ccc5; background: white; transition: all 0.25s; }
+.strike-dot.active { background: #E24B4A; border-color: #E24B4A; }
+
+/* ========== HANGMAN HEBREW ========== */
+.hangman-area { background: white; border-radius: 12px; border: 1px solid #e0ddd6; padding: 1.35rem; margin-bottom: 0.9rem; }
+.hangman-figure { text-align: center; margin-bottom: 0.9rem; }
+.hangman-svg { border-radius: 8px; background: #f8f6f2; }
+.hangman-clue { text-align: center; font-size: 0.88rem; color: #666; margin-bottom: 0.4rem; }
+.hangman-english { text-align: center; font-size: 1.2rem; font-weight: 600; color: #17324D; margin-bottom: 1rem; }
+.hangman-blanks { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 1.1rem; }
+.hm-blank { width: 38px; height: 48px; border-bottom: 3px solid #17324D; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 4px; font-size: 1.3rem; direction: rtl; color: #17324D; font-weight: 500; }
+.hangman-keys { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 0.9rem; }
+.hm-key { width: 38px; height: 38px; border-radius: 8px; border: 2px solid #e0ddd6; background: white; font-size: 1rem; cursor: pointer; transition: all 0.15s; direction: rtl; display: flex; align-items: center; justify-content: center; color: #17324D; }
+.hm-key:hover:not(:disabled) { border-color: #387F84; background: #f0f8f7; }
+.hm-key:disabled { background: #f0ede6; color: #bbb; cursor: not-allowed; }
+.hm-key.correct-key { background: #e1f5ee; border-color: #1D9E75; color: #0F6E56; }
+.hm-key.wrong-key { background: #fcebeb; border-color: #E24B4A; color: #A32D2D; }
+.hm-lives { display: flex; gap: 5px; align-items: center; font-size: 0.83rem; color: #666; margin-bottom: 0.7rem; }
+.hm-heart { font-size: 0.95rem; transition: all 0.3s; }
+.hm-heart.lost { opacity: 0.25; }
+
+/* PRACTICE TEST */
+.test-header { background: #17324D; color: white; border-radius: 12px; padding: 1rem 1.35rem; margin-bottom: 1.35rem; }
+.test-header h2 { font-size: 0.97rem; font-weight: 600; }
+.test-header p { font-size: 0.78rem; opacity: 0.65; margin-top: 0.2rem; }
+.test-q { background: white; border: 1px solid #e0ddd6; border-radius: 12px; padding: 1rem 1.35rem; margin-bottom: 0.85rem; }
+.test-q-num { font-size: 0.74rem; color: #999; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.28rem; }
+.test-q-stem { font-size: 0.95rem; font-weight: 500; margin-bottom: 0.75rem; color: #17324D; }
+.test-q-stem.hebrew { font-size: 1.45rem; direction: rtl; }
+.test-choices { display: flex; flex-direction: column; gap: 6px; }
+.test-choice { padding: 0.52rem 0.9rem; border: 1.5px solid #e0ddd6; border-radius: 8px; cursor: pointer; font-size: 0.88rem; transition: all 0.2s; }
+.test-choice:hover:not(.locked) { border-color: #387F84; background: #f0f8f7; }
+.test-choice.selected { border-color: #17324D; background: #e8f0f6; }
+.test-choice.correct-ans { border-color: #1D9E75; background: #e1f5ee; color: #0F6E56; }
+.test-choice.wrong-ans { border-color: #E24B4A; background: #fcebeb; color: #A32D2D; }
+.test-choice.reveal-correct { border-color: #1D9E75; background: #f0fbf6; }
+.test-choice.locked { cursor: default; }
+.test-text-q input { width: 100%; padding: 0.52rem 0.9rem; border: 1.5px solid #e0ddd6; border-radius: 8px; font-size: 0.97rem; outline: none; }
+.test-text-q input:focus { border-color: #387F84; }
+.test-feedback { margin-top: 0.45rem; font-size: 0.83rem; padding: 0.32rem 0.65rem; border-radius: 6px; display: none; }
+.test-feedback.show { display: block; }
+.test-results { text-align: center; padding: 1.75rem 1rem; }
+.score-big { font-size: 3.2rem; font-weight: 700; color: #17324D; line-height: 1; }
+.score-label { font-size: 0.92rem; color: #666; margin-top: 0.3rem; }
+.score-grade { display: inline-block; margin-top: 0.85rem; padding: 0.32rem 1rem; border-radius: 20px; font-size: 0.86rem; font-weight: 600; }
+.grade-a { background: #e1f5ee; color: #0F6E56; }
+.grade-b { background: #e8f0f6; color: #17324D; }
+.grade-c { background: #faeeda; color: #633806; }
+.grade-d { background: #fcebeb; color: #A32D2D; }
+</style>
+</head>
+<body>
+
+<div class="completion-banner">
+  <div class="completion-top">
+    <span>🎓 Overall Study Progress</span>
+    <span id="completion-pct">0% — keep going!</span>
+  </div>
+  <div class="completion-track">
+    <div class="completion-fill" id="completion-fill" style="width:0%"></div>
+  </div>
+  <div class="completion-milestones">
+    <span class="milestone reached" id="ms-0">🏁 Start</span>
+    <span class="milestone" id="ms-25">25%</span>
+    <span class="milestone" id="ms-50">50%</span>
+    <span class="milestone" id="ms-75">75%</span>
+    <span class="milestone" id="ms-100">⭐ 100%</span>
+  </div>
+</div>
+
+<div class="app-header">
+  <div>
+    <h1>🇮🇱 Hebrew Vocabulary Study</h1>
+    <span>Units 5.3 &amp; 5.4 · 15 words</span>
+  </div>
+  <div class="xp-badge" id="xp-display">⭐ 0 XP</div>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('vocab',event)">📋 Word List</button>
+  <button class="tab-btn" onclick="switchTab('flashcards',event)">🃏 Flashcards</button>
+  <button class="tab-btn" onclick="switchTab('match',event)">🔗 Match</button>
+  <button class="tab-btn" onclick="switchTab('typing',event)">⌨️ Translate</button>
+  <button class="tab-btn" onclick="switchTab('scramble',event)">🔀 Scramble</button>
+  <button class="tab-btn" onclick="switchTab('memory',event)">🧠 Memory</button>
+  <button class="tab-btn" onclick="switchTab('hangman',event)">🪢 Hangman</button>
+  <button class="tab-btn" onclick="switchTab('quiz',event)">⚡ Quiz</button>
+  <button class="tab-btn" onclick="switchTab('baseball',event)">⚾ Baseball</button>
+  <button class="tab-btn" onclick="switchTab('test',event)">📝 Test</button>
+</div>
+
+<!-- VOCAB LIST -->
+<div class="tab-panel active" id="tab-vocab">
+  <div class="section-title">All Vocabulary</div>
+  <div class="section-sub">15 words from Units 5.3 and 5.4. Review this before practicing.</div>
+  <div class="vocab-table-wrap">
+    <table class="vocab-table">
+      <thead><tr><th>English</th><th>Hebrew</th><th>Unit</th></tr></thead>
+      <tbody id="vocab-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- FLASHCARDS -->
+<div class="tab-panel" id="tab-flashcards">
+  <div class="section-title">Flashcards</div>
+  <div class="section-sub">Tap to flip. Mark yourself honestly — only "Got it" counts toward progress.</div>
+  <div class="flashcard-nav">
+    <span class="card-counter" id="fc-counter">Card 1 of 15</span>
+    <div class="unit-pills">
+      <button class="pill-btn active" id="pill-all" onclick="setFCUnit('all')">All</button>
+      <button class="pill-btn" id="pill-53" onclick="setFCUnit('5.3')">5.3</button>
+      <button class="pill-btn" id="pill-54" onclick="setFCUnit('5.4')">5.4</button>
+    </div>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="fc-progress" style="width:0%"></div></div>
+  <div class="flashcard-wrap" onclick="flipCard()">
+    <div class="flashcard" id="flashcard">
+      <div class="card-face card-front"><div class="hebrew-text" id="fc-hebrew"></div><div class="card-hint">Tap to reveal</div></div>
+      <div class="card-face card-back"><div class="translation-text" id="fc-translation"></div></div>
+    </div>
+  </div>
+  <div class="fc-controls">
+    <button class="btn btn-danger btn-sm" onclick="markCard(false)">Still learning</button>
+    <button class="btn btn-outline btn-sm" onclick="prevCard()">← Prev</button>
+    <button class="btn btn-outline btn-sm" onclick="nextCard()">Next →</button>
+    <button class="btn btn-success btn-sm" onclick="markCard(true)">Got it ✓</button>
+  </div>
+  <div style="margin-top:0.8rem;text-align:center;font-size:0.82rem;color:#888;" id="fc-learned"></div>
+</div>
+
+<!-- MATCHING -->
+<div class="tab-panel" id="tab-match">
+  <div class="section-title">Matching Game</div>
+  <div class="section-sub">Tap Hebrew → tap its English match. All 7 pairs = win!</div>
+  <div class="streak-bar">
+    <span class="streak-label">Matched:</span>
+    <span class="streak-count" id="match-score-display">0 / 7</span>
+    <div style="margin-left:auto;"><button class="btn btn-outline btn-sm" onclick="initMatch()">New Round</button></div>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="match-progress" style="width:0%"></div></div>
+  <div class="match-grid">
+    <div class="match-col"><h3>Hebrew</h3><div id="match-hebrew-col"></div></div>
+    <div class="match-col"><h3>English</h3><div id="match-eng-col"></div></div>
+  </div>
+  <div id="match-complete-msg" style="display:none;text-align:center;padding:0.85rem;background:#e1f5ee;border-radius:10px;color:#0F6E56;font-weight:500;">🎉 Perfect! <button class="btn btn-outline btn-sm" style="margin-left:7px;" onclick="initMatch()">Play again</button></div>
+</div>
+
+<!-- TYPING -->
+<div class="tab-panel" id="tab-typing">
+  <div class="section-title">Translate It</div>
+  <div class="section-sub">Type the English meaning. Hit Enter or Check.</div>
+  <div class="typing-progress" id="typing-dots"></div>
+  <div class="typing-card">
+    <div class="prompt-label">What does this mean in English?</div>
+    <div class="prompt-word" id="type-prompt"></div>
+    <div class="type-input-wrap">
+      <input class="type-input" id="type-input" placeholder="Type your answer…" autocomplete="off" onkeydown="if(event.key==='Enter')checkTyping()">
+      <button class="btn btn-primary btn-sm" onclick="checkTyping()">Check</button>
+    </div>
+    <div class="feedback-msg" id="type-feedback"></div>
+  </div>
+  <div class="bottom-nav">
+    <div style="font-size:0.82rem;color:#888;" id="type-counter">Word 1 of 15</div>
+    <button class="btn btn-outline btn-sm" onclick="nextTyping()">Skip →</button>
+  </div>
+</div>
+
+<!-- SCRAMBLE -->
+<div class="tab-panel" id="tab-scramble">
+  <div class="section-title">🔀 Letter Scramble</div>
+  <div class="section-sub">The Hebrew letters are shuffled. Tap them in the correct order to spell the word!</div>
+  <div class="scramble-prog" id="scramble-prog"></div>
+  <div class="scramble-card">
+    <div class="scramble-clue">Spell the Hebrew word for:</div>
+    <div class="scramble-english" id="scramble-english"></div>
+    <div class="answer-slots" id="answer-slots"></div>
+    <div class="scramble-letters" id="scramble-letters"></div>
+    <div class="feedback-msg" id="scramble-feedback"></div>
+    <div style="display:flex;gap:7px;justify-content:center;margin-top:0.7rem;">
+      <button class="btn btn-outline btn-sm" onclick="clearScramble()">Clear ↺</button>
+      <button class="btn btn-primary btn-sm" onclick="checkScramble()">Check ✓</button>
+      <button class="btn btn-outline btn-sm" onclick="nextScramble()">Skip →</button>
+    </div>
+  </div>
+  <div class="bottom-nav">
+    <span style="font-size:0.82rem;color:#888;" id="scramble-counter">Word 1 of 15</span>
+  </div>
+</div>
+
+<!-- MEMORY -->
+<div class="tab-panel" id="tab-memory">
+  <div class="section-title">🧠 Memory Match</div>
+  <div class="section-sub">Find Hebrew/English pairs. Flip two at a time — match all 8 pairs!</div>
+  <div class="memory-stats">
+    <span>Pairs found: <strong id="mem-found">0</strong>/8</span>
+    <span>Flips: <strong id="mem-flips">0</strong></span>
+    <span>Best: <strong id="mem-best">—</strong></span>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="mem-progress" style="width:0%"></div></div>
+  <div class="memory-grid" id="memory-grid"></div>
+  <div style="text-align:center;"><button class="btn btn-outline btn-sm" onclick="initMemory()">New Game</button></div>
+</div>
+
+<!-- HANGMAN -->
+<div class="tab-panel" id="tab-hangman">
+  <div class="section-title">🪢 Hebrew Hangman</div>
+  <div class="section-sub">Guess the Hebrew word letter by letter. You have 6 lives!</div>
+  <div class="hangman-area">
+    <div class="hangman-figure">
+      <svg class="hangman-svg" width="140" height="130" viewBox="0 0 140 130">
+        <line x1="20" y1="125" x2="120" y2="125" stroke="#17324D" stroke-width="3" stroke-linecap="round"/>
+        <line x1="40" y1="125" x2="40" y2="10" stroke="#17324D" stroke-width="3" stroke-linecap="round"/>
+        <line x1="40" y1="10" x2="90" y2="10" stroke="#17324D" stroke-width="3" stroke-linecap="round"/>
+        <line x1="90" y1="10" x2="90" y2="28" stroke="#17324D" stroke-width="2" stroke-linecap="round"/>
+        <!-- head -->
+        <circle id="hm-head" cx="90" cy="38" r="10" stroke="#E24B4A" stroke-width="2.5" fill="none" style="display:none"/>
+        <!-- body -->
+        <line id="hm-body" x1="90" y1="48" x2="90" y2="80" stroke="#E24B4A" stroke-width="2.5" stroke-linecap="round" style="display:none"/>
+        <!-- left arm -->
+        <line id="hm-larm" x1="90" y1="58" x2="72" y2="72" stroke="#E24B4A" stroke-width="2.5" stroke-linecap="round" style="display:none"/>
+        <!-- right arm -->
+        <line id="hm-rarm" x1="90" y1="58" x2="108" y2="72" stroke="#E24B4A" stroke-width="2.5" stroke-linecap="round" style="display:none"/>
+        <!-- left leg -->
+        <line id="hm-lleg" x1="90" y1="80" x2="74" y2="100" stroke="#E24B4A" stroke-width="2.5" stroke-linecap="round" style="display:none"/>
+        <!-- right leg -->
+        <line id="hm-rleg" x1="90" y1="80" x2="106" y2="100" stroke="#E24B4A" stroke-width="2.5" stroke-linecap="round" style="display:none"/>
+      </svg>
+    </div>
+    <div class="hm-lives" id="hm-lives-row"></div>
+    <div class="hangman-clue">Spell the Hebrew word for:</div>
+    <div class="hangman-english" id="hm-english"></div>
+    <div class="hangman-blanks" id="hm-blanks"></div>
+    <div class="hangman-keys" id="hm-keys"></div>
+    <div class="feedback-msg" id="hm-feedback"></div>
+    <div style="text-align:center;margin-top:0.7rem;"><button class="btn btn-outline btn-sm" onclick="initHangman()">New Word</button></div>
+  </div>
+  <div style="font-size:0.82rem;color:#888;" id="hm-counter">Word 1 of 15</div>
+</div>
+
+<!-- QUIZ -->
+<div class="tab-panel" id="tab-quiz">
+  <div class="section-title">⚡ Quick Quiz</div>
+  <div class="section-sub">Choose the correct English translation. Build your streak!</div>
+  <div class="streak-bar">
+    <span class="streak-label">🔥 Streak:</span>
+    <span class="streak-count" id="quiz-streak">0</span>
+    <span style="margin-left:1rem;font-size:0.8rem;color:#888;">Score: <strong id="quiz-score-display">0</strong></span>
+  </div>
+  <div class="quiz-card">
+    <div class="quiz-instruction">What does this word mean?</div>
+    <div class="quiz-hebrew" id="quiz-word"></div>
+    <div class="choices-grid" id="quiz-choices"></div>
+    <div class="feedback-msg" id="quiz-feedback"></div>
+  </div>
+  <div class="bottom-nav">
+    <span style="font-size:0.82rem;color:#888;" id="quiz-counter">Question 1</span>
+    <button class="btn btn-outline btn-sm" id="quiz-next-btn" onclick="nextQuiz()" style="display:none;">Next →</button>
+  </div>
+</div>
+
+<!-- BASEBALL -->
+<div class="tab-panel" id="tab-baseball">
+  <div class="section-title">⚾ Hebrew Baseball</div>
+  <div class="section-sub">Right answer = base hit. Load the bases and score runs! 3 strikes = out.</div>
+
+  <div class="baseball-stadium">
+    <div class="stadium-stripes"></div>
+    <div class="pitcher-label" id="bb-pitcher-label">⚾ Ready to pitch…</div>
+    <div class="pitcher-emoji" id="bb-pitcher">🧑‍⚾</div>
+    <div class="batter-emoji">🏏</div>
+    <div class="pitch-indicator"><div class="ball-dot" id="ball-dot"></div></div>
+    <div class="diamond">
+      <div class="base base-home" id="base-home"></div>
+      <div class="base base-first" id="base-first"></div>
+      <div class="base base-second" id="base-second"></div>
+      <div class="base base-third" id="base-third"></div>
+    </div>
+    <div class="scoreboard">
+      <div class="sb-row"><span class="sb-lbl">Runs</span><span class="sb-val" id="bb-runs">0</span></div>
+      <div class="sb-row"><span class="sb-lbl">Hits</span><span class="sb-val" id="bb-hits">0</span></div>
+      <div class="sb-row"><span class="sb-lbl">Outs</span><span class="sb-val" id="bb-outs">0</span></div>
+      <div class="sb-row"><span class="sb-lbl">Inning</span><span class="sb-val" id="bb-inning">1</span></div>
+    </div>
+  </div>
+
+  <div class="strikes-row">
+    <span style="font-size:0.8rem;color:#666;font-weight:600;">STRIKES:</span>
+    <div id="strikes-display" style="display:flex;gap:5px;"></div>
+    <span style="margin-left:1rem;font-size:0.8rem;color:#666;font-weight:600;">ON BASE:</span>
+    <span style="font-size:0.82rem;color:#444;" id="bases-text">—</span>
+  </div>
+
+  <div class="bb-question">
+    <div class="bb-prompt">What does this Hebrew word mean?</div>
+    <div class="bb-hebrew" id="bb-hebrew"></div>
+    <div class="bb-choices" id="bb-choices"></div>
+    <div class="bb-result-msg" id="bb-result"></div>
+  </div>
+  <div style="text-align:center;">
+    <button class="btn btn-outline btn-sm" onclick="initBaseball()">New Game ↺</button>
+  </div>
+</div>
+
+<!-- PRACTICE TEST -->
+<div class="tab-panel" id="tab-test">
+  <div class="test-header">
+    <h2>📝 Practice Test — Units 5.3 &amp; 5.4</h2>
+    <p>15 questions · Hebrew→English · English→Hebrew · Fill in the blank</p>
+  </div>
+  <div id="test-body"></div>
+  <div id="test-submit-area" style="text-align:center;margin-top:1.35rem;display:none;">
+    <button class="btn btn-primary" onclick="gradeTest()" style="padding:0.68rem 2.4rem;font-size:0.95rem;">Submit Test</button>
+  </div>
+  <div id="test-results-area" style="display:none;"></div>
+</div>
+
+<script>
+const vocab = [
+  {english:"write (m.s.)",hebrew:"כּוֹתֵב",unit:"5.3"},
+  {english:"write (f.s.)",hebrew:"כּוֹתֶבֶת",unit:"5.3"},
+  {english:"thank you very much!",hebrew:"תּוֹדָה רַבָּה",unit:"5.3"},
+  {english:"good",hebrew:"טוֹב",unit:"5.3"},
+  {english:"so so",hebrew:"כָּכָה כָּכָה",unit:"5.3"},
+  {english:"okay, alright",hebrew:"בְּסֵדֶר",unit:"5.3"},
+  {english:"city",hebrew:"עִיר",unit:"5.3"},
+  {english:"sea",hebrew:"יָם",unit:"5.3"},
+  {english:"old",hebrew:"יָשָׁן",unit:"5.4"},
+  {english:"new",hebrew:"חָדָשׁ",unit:"5.4"},
+  {english:"grandfather",hebrew:"סָבָא",unit:"5.4"},
+  {english:"grandmother",hebrew:"סָבְתָא",unit:"5.4"},
+  {english:"street",hebrew:"רְחוֹב",unit:"5.4"},
+  {english:"nice, beautiful",hebrew:"יָפֶה",unit:"5.4"},
+  {english:"Torah, Chumash",hebrew:"תּוֹרָה",unit:"5.4"},
+];
+
+// XP + COMPLETION
+let xp=0;
+const XP_MAP={vocab:5,flashcards:10,match:15,typing:15,scramble:20,memory:20,hangman:20,quiz:10,baseball:25,test:30};
+const done={};
+function awardXP(act){
+  if(done[act])return; done[act]=true; xp+=XP_MAP[act]||5;
+  document.getElementById('xp-display').textContent='⭐ '+xp+' XP';
+  updateCompletion();
+}
+function updateCompletion(){
+  const total=Object.keys(XP_MAP).length, n=Object.keys(done).length;
+  const pct=Math.round(n/total*100);
+  document.getElementById('completion-fill').style.width=pct+'%';
+  document.getElementById('completion-pct').textContent=pct+'% complete'+(pct===100?' 🏆':'');
+  [0,25,50,75,100].forEach(m=>{
+    if(pct>=m) document.getElementById('ms-'+m).classList.add('reached');
+  });
+}
+
+function shuffle(a){return [...a].sort(()=>Math.random()-0.5);}
+
+// TABS
+function switchTab(id,evt){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  if(evt)evt.currentTarget.classList.add('active');
+  if(id==='test'&&!testBuilt)buildTest();
+  if(id==='scramble'&&!scrambleBuilt)buildScramble();
+  if(id==='memory')initMemory();
+  if(id==='baseball')initBaseball();
+  if(id==='hangman')initHangman();
+  awardXP(id);
+}
+
+// VOCAB TABLE
+(function(){
+  const tb=document.getElementById('vocab-tbody');
+  vocab.forEach(w=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${w.english}</td><td class="heb-cell">${w.hebrew}</td><td><span class="unit-badge unit-${w.unit.replace('.','')}">${w.unit}</span></td>`;
+    tb.appendChild(tr);
+  });
+  awardXP('vocab');
+})();
+
+// FLASHCARDS
+let fcList=[...vocab],fcIdx=0,fcUnit='all',fcLearned=new Set();
+function setFCUnit(u){
+  fcUnit=u; ['all','53','54'].forEach(x=>document.getElementById('pill-'+x).classList.remove('active'));
+  document.getElementById('pill-'+(u==='all'?'all':u.replace('.',''))) .classList.add('active');
+  fcList=u==='all'?[...vocab]:vocab.filter(w=>w.unit===u);
+  fcIdx=0;fcLearned=new Set();showCard();
+}
+function showCard(){
+  document.getElementById('flashcard').classList.remove('flipped');
+  setTimeout(()=>{
+    const w=fcList[fcIdx];
+    document.getElementById('fc-hebrew').textContent=w.hebrew;
+    document.getElementById('fc-translation').textContent=w.english;
+    document.getElementById('fc-counter').textContent=`Card ${fcIdx+1} of ${fcList.length}`;
+    document.getElementById('fc-progress').style.width=(fcLearned.size/fcList.length*100)+'%';
+    document.getElementById('fc-learned').textContent=fcLearned.size>0?`✓ ${fcLearned.size} learned · ${fcList.length-fcLearned.size} to go`:'';
+    if(fcLearned.size===fcList.length&&fcList.length>0)awardXP('flashcards');
+  },100);
+}
+function flipCard(){document.getElementById('flashcard').classList.toggle('flipped');}
+function nextCard(){fcIdx=(fcIdx+1)%fcList.length;showCard();}
+function prevCard(){fcIdx=(fcIdx-1+fcList.length)%fcList.length;showCard();}
+function markCard(ok){if(ok)fcLearned.add(fcIdx);else fcLearned.delete(fcIdx);nextCard();}
+showCard();
+
+// MATCHING
+let mSel=null,mType=null,mDone=0;
+function initMatch(){
+  mSel=null;mType=null;mDone=0;
+  document.getElementById('match-complete-msg').style.display='none';
+  document.getElementById('match-score-display').textContent='0 / 7';
+  document.getElementById('match-progress').style.width='0%';
+  const s=shuffle(vocab).slice(0,7);
+  const h=document.getElementById('match-hebrew-col');
+  const e=document.getElementById('match-eng-col');
+  h.innerHTML='';e.innerHTML='';
+  shuffle(s).forEach(w=>{
+    const d=document.createElement('div');
+    d.className='match-item hebrew-item';d.textContent=w.hebrew;d.dataset.key=w.english;d.dataset.side='heb';
+    d.onclick=()=>selectMatch(d);h.appendChild(d);
+  });
+  shuffle(s).forEach(w=>{
+    const d=document.createElement('div');
+    d.className='match-item';d.textContent=w.english;d.dataset.key=w.english;d.dataset.side='eng';
+    d.onclick=()=>selectMatch(d);e.appendChild(d);
+  });
+}
+function selectMatch(el){
+  if(el.classList.contains('correct')||el.classList.contains('selected'))return;
+  el.classList.add('selected');
+  if(!mSel){mSel=el;mType=el.dataset.side;return;}
+  if(el.dataset.side===mType){mSel.classList.remove('selected');mSel=el;return;}
+  const a=mSel,b=el;
+  if(a.dataset.key===b.dataset.key){
+    a.classList.remove('selected');b.classList.remove('selected');
+    a.classList.add('correct');b.classList.add('correct');
+    mDone++;
+    document.getElementById('match-score-display').textContent=`${mDone} / 7`;
+    document.getElementById('match-progress').style.width=(mDone/7*100)+'%';
+    if(mDone===7){document.getElementById('match-complete-msg').style.display='block';awardXP('match');}
+  }else{
+    a.classList.add('wrong');b.classList.add('wrong');
+    setTimeout(()=>{a.classList.remove('wrong','selected');b.classList.remove('wrong','selected');},600);
+  }
+  mSel=null;mType=null;
+}
+initMatch();
+
+// TYPING
+let tList=shuffle([...vocab]),tIdx=0;
+function buildTyping(){
+  tList=shuffle([...vocab]);tIdx=0;
+  const c=document.getElementById('typing-dots');c.innerHTML='';
+  tList.forEach((_,i)=>{const d=document.createElement('div');d.className='prog-dot'+(i===0?' current':'');d.id='dot-'+i;c.appendChild(d);});
+  showTypingCard();
+}
+function showTypingCard(){
+  const w=tList[tIdx];
+  document.getElementById('type-prompt').textContent=w.hebrew;
+  document.getElementById('type-input').value='';
+  document.getElementById('type-input').className='type-input';
+  const fb=document.getElementById('type-feedback');fb.className='feedback-msg';fb.textContent='';
+  document.getElementById('type-counter').textContent=`Word ${tIdx+1} of ${tList.length}`;
+  document.getElementById('type-input').focus();
+}
+function checkTyping(){
+  const inp=document.getElementById('type-input'),fb=document.getElementById('type-feedback'),w=tList[tIdx];
+  const u=inp.value.trim().toLowerCase();
+  const alts=[w.english.toLowerCase(),...w.english.split(',').map(s=>s.trim().toLowerCase()),w.english.replace(/[(),.!]/g,'').trim().toLowerCase()];
+  const ok=alts.some(a=>u===a||(u.length>2&&a.startsWith(u)));
+  if(ok){
+    inp.className='type-input correct-input';
+    fb.textContent='✓ Correct! "'+w.english+'"';fb.className='feedback-msg show feedback-correct';
+    document.getElementById('dot-'+tIdx).className='prog-dot done';
+    setTimeout(nextTyping,1100);
+  }else{
+    inp.className='type-input wrong-input';
+    fb.textContent='✗ Not quite — answer: '+w.english;fb.className='feedback-msg show feedback-wrong';
+  }
+}
+function nextTyping(){
+  if(tIdx<tList.length-1){
+    const d=document.getElementById('dot-'+tIdx);if(!d.classList.contains('done'))d.className='prog-dot';
+    tIdx++;document.getElementById('dot-'+tIdx).classList.add('current');showTypingCard();
+  }else{
+    document.getElementById('type-prompt').textContent='🎉 All done!';
+    document.getElementById('type-input').style.display='none';
+    awardXP('typing');
+  }
+}
+buildTyping();
+
+// SCRAMBLE
+let scrambleBuilt=false,sList=[],sIdx=0,sAnswer=[],sTiles=[];
+function buildScramble(){
+  scrambleBuilt=true;sList=shuffle([...vocab]);sIdx=0;
+  const c=document.getElementById('scramble-prog');c.innerHTML='';
+  sList.forEach((_,i)=>{const d=document.createElement('div');d.className='prog-dot'+(i===0?' current':'');d.id='sdot-'+i;c.appendChild(d);});
+  showScrambleCard();
+}
+function showScrambleCard(){
+  const w=sList[sIdx];
+  document.getElementById('scramble-english').textContent=w.english;
+  document.getElementById('scramble-counter').textContent=`Word ${sIdx+1} of ${sList.length}`;
+  document.getElementById('scramble-feedback').className='feedback-msg';
+  sAnswer=[];sTiles=shuffle([...w.hebrew]);
+  renderScramble(w);
+}
+function countIn(arr,v){return arr.filter(x=>x===v).length;}
+function renderScramble(w){
+  const ans=document.getElementById('answer-slots'),lets=document.getElementById('scramble-letters');
+  ans.innerHTML='';lets.innerHTML='';
+  const total=[...w.hebrew].length;
+  for(let i=0;i<total;i++){
+    const sl=document.createElement('div');
+    sl.className='answer-slot'+(sAnswer[i]?' filled':'');
+    sl.textContent=sAnswer[i]||'';sl.dataset.idx=i;
+    if(sAnswer[i])sl.onclick=()=>removeFromAnswer(i);
+    ans.appendChild(sl);
+  }
+  sTiles.forEach((ch,ti)=>{
+    const used=countIn(sAnswer,ch)>=countIn(sTiles,ch);
+    const tile=document.createElement('div');
+    tile.className='letter-tile'+(used?' used':'');
+    tile.textContent=ch;
+    if(!used)tile.onclick=()=>addToAnswer(ch);
+    lets.appendChild(tile);
+  });
+}
+function addToAnswer(ch){
+  const w=sList[sIdx];
+  if(sAnswer.length>=[...w.hebrew].length)return;
+  if(countIn(sAnswer,ch)>=countIn(sTiles,ch))return;
+  sAnswer.push(ch);renderScramble(w);
+}
+function removeFromAnswer(i){sAnswer.splice(i,1);renderScramble(sList[sIdx]);}
+function clearScramble(){sAnswer=[];renderScramble(sList[sIdx]);}
+function checkScramble(){
+  const w=sList[sIdx],fb=document.getElementById('scramble-feedback');
+  if(sAnswer.length<[...w.hebrew].length){fb.textContent='Place all letters first!';fb.className='feedback-msg show feedback-wrong';return;}
+  if(sAnswer.join('')===w.hebrew){
+    fb.textContent='✓ Correct!';fb.className='feedback-msg show feedback-correct';
+    document.getElementById('sdot-'+sIdx).className='prog-dot done';
+    setTimeout(nextScramble,1000);
+  }else{fb.textContent='✗ Not quite — try rearranging!';fb.className='feedback-msg show feedback-wrong';}
+}
+function nextScramble(){
+  const d=document.getElementById('sdot-'+sIdx);if(!d.classList.contains('done'))d.className='prog-dot';
+  if(sIdx<sList.length-1){sIdx++;document.getElementById('sdot-'+sIdx).classList.add('current');showScrambleCard();}
+  else{document.getElementById('scramble-english').textContent='🎉 All done!';awardXP('scramble');}
+}
+
+// MEMORY
+let memCards=[],memFlipped=[],memFound=0,memFlips=0,memBest=null,memLocked=false;
+function initMemory(){
+  memFlipped=[];memFound=0;memFlips=0;memLocked=false;
+  document.getElementById('mem-found').textContent='0';
+  document.getElementById('mem-flips').textContent='0';
+  document.getElementById('mem-progress').style.width='0%';
+  const sample=shuffle(vocab).slice(0,8);
+  const pairs=[];
+  sample.forEach(w=>{
+    pairs.push({id:w.english,type:'heb',text:w.hebrew});
+    pairs.push({id:w.english,type:'eng',text:w.english});
+  });
+  memCards=shuffle(pairs);
+  const grid=document.getElementById('memory-grid');grid.innerHTML='';
+  memCards.forEach((c,i)=>{
+    const div=document.createElement('div');div.className='mem-card';
+    const inner=document.createElement('div');inner.className='mem-inner';inner.id='mc-'+i;
+    const front=document.createElement('div');front.className='mem-face mem-front';front.textContent='?';
+    const back=document.createElement('div');back.className='mem-face '+(c.type==='heb'?'mem-back-heb':'mem-back-eng');back.textContent=c.text;
+    inner.appendChild(front);inner.appendChild(back);div.appendChild(inner);
+    div.onclick=()=>flipMem(i);grid.appendChild(div);
+  });
+}
+function flipMem(i){
+  if(memLocked)return;
+  const el=document.getElementById('mc-'+i);
+  if(!el||el.classList.contains('flipped')||memFlipped.includes(i))return;
+  el.classList.add('flipped');memFlipped.push(i);memFlips++;
+  document.getElementById('mem-flips').textContent=memFlips;
+  if(memFlipped.length===2){
+    memLocked=true;
+    const [a,b]=memFlipped;
+    if(memCards[a].id===memCards[b].id&&memCards[a].type!==memCards[b].type){
+      ['mc-'+a,'mc-'+b].forEach(id=>{document.getElementById(id).querySelectorAll('.mem-face').forEach(f=>f.classList.add('matched'));});
+      memFound++;
+      document.getElementById('mem-found').textContent=memFound;
+      document.getElementById('mem-progress').style.width=(memFound/8*100)+'%';
+      memFlipped=[];memLocked=false;
+      if(memFound===8){if(!memBest||memFlips<memBest){memBest=memFlips;document.getElementById('mem-best').textContent=memFlips+' flips';}awardXP('memory');}
+    }else{
+      setTimeout(()=>{['mc-'+a,'mc-'+b].forEach(id=>document.getElementById(id).classList.remove('flipped'));memFlipped=[];memLocked=false;},950);
+    }
+  }
+}
+
+// HANGMAN
+const hmParts=['hm-head','hm-body','hm-larm','hm-rarm','hm-lleg','hm-rleg'];
+let hmList=[],hmIdx=0,hmWord='',hmGuessed=[],hmWrong=0;
+const HEBREW_LETTERS=['א','ב','ג','ד','ה','ו','ז','ח','ט','י','כ','ל','מ','נ','ס','ע','פ','צ','ק','ר','ש','ת','ך','ם','ן','ף','ץ'];
+
+function initHangman(){
+  if(!hmList.length)hmList=shuffle([...vocab]);
+  const w=hmList[hmIdx%hmList.length];
+  hmWord=w.hebrew;hmGuessed=[];hmWrong=0;
+  document.getElementById('hm-english').textContent=w.english;
+  document.getElementById('hm-counter').textContent=`Word ${(hmIdx%hmList.length)+1} of ${hmList.length}`;
+  document.getElementById('hm-feedback').className='feedback-msg';
+  hmParts.forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+  renderHMLives();renderHMBlanks();renderHMKeys();
+}
+function renderHMLives(){
+  const row=document.getElementById('hm-lives-row');row.innerHTML='';
+  const label=document.createElement('span');label.style.fontSize='0.8rem';label.style.color='#666';label.style.fontWeight='600';label.style.marginRight='6px';label.textContent='LIVES:';row.appendChild(label);
+  for(let i=0;i<6;i++){
+    const h=document.createElement('span');h.className='hm-heart'+(i>=6-hmWrong?' lost':'');h.textContent='❤️';row.appendChild(h);
+  }
+}
+function renderHMBlanks(){
+  const cont=document.getElementById('hm-blanks');cont.innerHTML='';
+  // treat each character (including nikud clusters) as one unit
+  const chars=[...hmWord].filter(c=>c.trim().length>0||c===' ');
+  chars.forEach(ch=>{
+    if(ch===' '){const sp=document.createElement('div');sp.style.width='16px';cont.appendChild(sp);return;}
+    const sl=document.createElement('div');sl.className='hm-blank';
+    // check if base letter is guessed (ignore nikud/vowel marks)
+    const base=ch.replace(/[\u05B0-\u05C7]/g,'');
+    sl.textContent=hmGuessed.includes(base)?ch:'';
+    cont.appendChild(sl);
+  });
+}
+function renderHMKeys(){
+  const cont=document.getElementById('hm-keys');cont.innerHTML='';
+  HEBREW_LETTERS.forEach(ch=>{
+    const btn=document.createElement('button');btn.className='hm-key';btn.textContent=ch;
+    const base=ch;
+    const used=hmGuessed.includes(base);
+    if(used){
+      const inWord=[...hmWord].some(c=>c.replace(/[\u05B0-\u05C7]/g,'')==base);
+      btn.className='hm-key '+(inWord?'correct-key':'wrong-key');
+      btn.disabled=true;
+    }else{
+      btn.onclick=()=>guessHM(base);
+    }
+    cont.appendChild(btn);
+  });
+}
+function guessHM(letter){
+  if(hmGuessed.includes(letter))return;
+  hmGuessed.push(letter);
+  const chars=[...hmWord].filter(c=>c.trim()&&c!==' ');
+  const baseChars=chars.map(c=>c.replace(/[\u05B0-\u05C7]/g,''));
+  const inWord=baseChars.includes(letter);
+  if(!inWord){
+    hmWrong++;
+    const part=hmParts[hmWrong-1];
+    if(part){const el=document.getElementById(part);if(el)el.style.display='block';}
+  }
+  renderHMLives();renderHMBlanks();renderHMKeys();
+  const fb=document.getElementById('hm-feedback');
+  // check win
+  const allRevealed=baseChars.every(c=>hmGuessed.includes(c));
+  if(allRevealed){
+    fb.textContent='🎉 You got it!';fb.className='feedback-msg show feedback-correct';
+    awardXP('hangman');
+    setTimeout(()=>{hmIdx++;initHangman();},1400);
+  }else if(hmWrong>=6){
+    fb.textContent='💀 Game over! The word was: '+hmWord;fb.className='feedback-msg show feedback-wrong';
+    setTimeout(()=>{hmIdx++;initHangman();},2000);
+  }
+}
+
+// QUIZ
+let qList=shuffle([...vocab]),qIdx=0,qStreak=0,qScore=0,qAnswered=false;
+function showQuiz(){
+  qAnswered=false;
+  document.getElementById('quiz-next-btn').style.display='none';
+  const fb=document.getElementById('quiz-feedback');fb.className='feedback-msg';fb.textContent='';
+  const w=qList[qIdx];
+  document.getElementById('quiz-word').textContent=w.hebrew;
+  document.getElementById('quiz-counter').textContent=`Question ${qIdx+1}`;
+  const others=shuffle(vocab.filter(v=>v.english!==w.english));
+  const choices=shuffle([w,others[0],others[1],others[2]]);
+  const gc=document.getElementById('quiz-choices');gc.innerHTML='';
+  choices.forEach(c=>{
+    const btn=document.createElement('button');btn.className='choice-btn';btn.textContent=c.english;
+    btn.onclick=()=>answerQuiz(btn,c.english,w.english);gc.appendChild(btn);
+  });
+}
+function answerQuiz(btn,chosen,correct){
+  if(qAnswered)return;qAnswered=true;
+  const fb=document.getElementById('quiz-feedback');
+  document.querySelectorAll('.choice-btn').forEach(b=>b.disabled=true);
+  if(chosen===correct){
+    btn.classList.add('correct-choice');qStreak++;qScore++;
+    fb.textContent='✓ Correct!'+(qStreak>=3?' 🔥 Streak x'+qStreak:'');
+    fb.className='feedback-msg show feedback-correct';
+    if(qScore>=10)awardXP('quiz');
+  }else{
+    btn.classList.add('wrong-choice');qStreak=0;
+    document.querySelectorAll('.choice-btn').forEach(b=>{if(b.textContent===correct)b.classList.add('correct-choice');});
+    fb.textContent='✗ Incorrect. Correct: '+correct;fb.className='feedback-msg show feedback-wrong';
+  }
+  document.getElementById('quiz-streak').textContent=qStreak;
+  document.getElementById('quiz-score-display').textContent=qScore;
+  document.getElementById('quiz-next-btn').style.display='inline-block';
+}
+function nextQuiz(){qIdx=(qIdx+1)%qList.length;if(qIdx===0)qList=shuffle([...vocab]);showQuiz();}
+showQuiz();
+
+// BASEBALL
+let bbRuns=0,bbHits=0,bbOuts=0,bbInning=1,bbStrikes=0,bbBases=[false,false,false],bbList=[],bbIdx=0,bbAnswered=false;
+function initBaseball(){
+  bbRuns=0;bbHits=0;bbOuts=0;bbInning=1;bbStrikes=0;bbBases=[false,false,false];
+  bbList=shuffle([...vocab]);bbIdx=0;bbAnswered=false;
+  updateBBScore();updateBBBases();renderStrikes();showBBQ();
+}
+function updateBBScore(){
+  document.getElementById('bb-runs').textContent=bbRuns;
+  document.getElementById('bb-hits').textContent=bbHits;
+  document.getElementById('bb-outs').textContent=bbOuts;
+  document.getElementById('bb-inning').textContent=bbInning;
+}
+function updateBBBases(){
+  ['base-first','base-second','base-third'].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    const cls=['base-first','base-second','base-third'][i];
+    el.className='base '+cls+(bbBases[i]?' lit':'');
+  });
+  const occ=[];
+  if(bbBases[0])occ.push('1st');if(bbBases[1])occ.push('2nd');if(bbBases[2])occ.push('3rd');
+  document.getElementById('bases-text').textContent=occ.length?occ.join(', '):'—';
+}
+function renderStrikes(){
+  const d=document.getElementById('strikes-display');d.innerHTML='';
+  for(let i=0;i<3;i++){const b=document.createElement('div');b.className='strike-dot'+(i<bbStrikes?' active':'');d.appendChild(b);}
+}
+function showBBQ(){
+  bbAnswered=false;
+  document.getElementById('bb-result').textContent='';document.getElementById('bb-result').className='bb-result-msg';
+  const w=bbList[bbIdx%bbList.length];
+  document.getElementById('bb-hebrew').textContent=w.hebrew;
+  const others=shuffle(vocab.filter(v=>v.english!==w.english));
+  const choices=shuffle([w,others[0],others[1],others[2]]);
+  const gc=document.getElementById('bb-choices');gc.innerHTML='';
+  choices.forEach(c=>{
+    const btn=document.createElement('button');btn.className='bb-choice';btn.textContent=c.english;
+    btn.onclick=()=>bbAnswer(btn,c.english,w.english);gc.appendChild(btn);
+  });
+}
+function pitchAnim(){
+  const d=document.getElementById('ball-dot');d.className='ball-dot';void d.offsetWidth;d.className='ball-dot pitching';
+}
+function bbAnswer(btn,chosen,correct){
+  if(bbAnswered)return;bbAnswered=true;pitchAnim();
+  document.querySelectorAll('.bb-choice').forEach(b=>b.disabled=true);
+  const res=document.getElementById('bb-result');
+  if(chosen===correct){
+    btn.classList.add('hit');bbHits++;
+    let runs=0;const nb=[true,bbBases[0],bbBases[1]];if(bbBases[2])runs++;
+    bbRuns+=runs;bbBases=nb;bbStrikes=0;
+    const msgs=['Single! ⚾','Base hit! 🔥','Sharp single! ✅','Crack of the bat! 🏏'];
+    res.textContent=(runs>0?`🏃 Run scores! `+bbRuns+` total! `:'')+msgs[Math.floor(Math.random()*msgs.length)];
+    res.className='bb-result-msg hit-text';
+    updateBBScore();updateBBBases();renderStrikes();
+    if(bbRuns>=9)awardXP('baseball');
+    setTimeout(()=>{bbIdx++;showBBQ();},1400);
+  }else{
+    btn.classList.add('out');
+    document.querySelectorAll('.bb-choice').forEach(b=>{if(b.textContent===correct)b.classList.add('hit');});
+    bbStrikes++;renderStrikes();
+    if(bbStrikes>=3){
+      bbOuts++;bbStrikes=0;
+      if(bbOuts>=3){bbOuts=0;bbInning++;bbBases=[false,false,false];res.textContent='Side retired! New inning '+bbInning+' ⚾';}
+      else res.textContent='Strikeout! '+(3-bbOuts)+' outs left this inning.';
+    }else{
+      res.textContent='Strike '+bbStrikes+'! '+(3-bbStrikes)+' more and you\'re out!';
+    }
+    res.className='bb-result-msg out-text';updateBBScore();updateBBBases();
+    setTimeout(()=>{bbIdx++;showBBQ();},1700);
+  }
+}
+
+// TEST
+let testBuilt=false,testQ=[];
+function buildTest(){
+  testBuilt=true;
+  const all=shuffle([...vocab]);testQ=[];
+  all.slice(0,7).forEach(w=>{
+    const o=shuffle(vocab.filter(v=>v.english!==w.english));
+    testQ.push({type:'mc-heb2eng',stem:w.hebrew,correct:w.english,choices:shuffle([w.english,o[0].english,o[1].english,o[2].english])});
+  });
+  all.slice(7,12).forEach(w=>{
+    const o=shuffle(vocab.filter(v=>v.hebrew!==w.hebrew));
+    testQ.push({type:'mc-eng2heb',stem:`What is the Hebrew word for: "${w.english}"?`,correct:w.hebrew,choices:shuffle([w.hebrew,o[0].hebrew,o[1].hebrew,o[2].hebrew])});
+  });
+  all.slice(12,15).forEach(w=>{
+    testQ.push({type:'fill',stem:w.hebrew,correct:w.english.toLowerCase(),alts:[w.english.toLowerCase(),...w.english.split(',').map(s=>s.trim().toLowerCase())]});
+  });
+  testQ=shuffle(testQ);
+  const body=document.getElementById('test-body');body.innerHTML='';
+  testQ.forEach((q,i)=>{
+    const div=document.createElement('div');div.className='test-q';div.id='tq-'+i;
+    if(q.type==='fill'){
+      div.innerHTML=`<div class="test-q-num">Q${i+1} · Fill in the blank</div><div class="test-q-stem hebrew">${q.stem}</div><div class="test-text-q"><input type="text" id="tq-input-${i}" placeholder="Type English meaning…" autocomplete="off"></div><div class="test-feedback" id="tfb-${i}"></div>`;
+    }else{
+      const hCls=q.type==='mc-heb2eng'?' hebrew':'';
+      const chHTML=q.choices.map((c,ci)=>`<div class="test-choice" id="tc-${i}-${ci}" onclick="selTC(${i},${ci},'${c.replace(/'/g,"\\'")}','${q.correct.replace(/'/g,"\\'")}')"><span style="${q.type==='mc-eng2heb'?'direction:rtl;font-size:1.1rem;':''}">${c}</span></div>`).join('');
+      div.innerHTML=`<div class="test-q-num">Q${i+1} · ${q.type==='mc-heb2eng'?'Hebrew → English':'English → Hebrew'}</div><div class="test-q-stem${hCls}">${q.stem}</div><div class="test-choices">${chHTML}</div><div class="test-feedback" id="tfb-${i}"></div>`;
+    }
+    body.appendChild(div);
+  });
+  document.getElementById('test-submit-area').style.display='block';
+}
+function selTC(qi,ci,chosen,correct){
+  document.querySelectorAll(`#tq-${qi} .test-choice`).forEach(c=>c.classList.remove('selected'));
+  document.getElementById(`tc-${qi}-${ci}`).classList.add('selected');
+}
+function gradeTest(){
+  let score=0;
+  testQ.forEach((q,i)=>{
+    const fb=document.getElementById('tfb-'+i);
+    if(q.type==='fill'){
+      const v=document.getElementById('tq-input-'+i).value.trim().toLowerCase();
+      const ok=q.alts.some(a=>v===a||(v.length>2&&a.includes(v)));
+      document.getElementById('tq-input-'+i).style.border=ok?'2px solid #1D9E75':'2px solid #E24B4A';
+      fb.className='test-feedback show '+(ok?'feedback-correct':'feedback-wrong');
+      fb.textContent=ok?'✓ Correct!':'✗ Answer: '+q.correct;
+      if(ok)score++;
+    }else{
+      const sel=document.querySelector(`#tq-${i} .test-choice.selected`);
+      document.querySelectorAll(`#tq-${i} .test-choice`).forEach(c=>c.classList.add('locked'));
+      if(!sel){
+        fb.className='test-feedback show feedback-wrong';fb.textContent='✗ No answer. Correct: '+q.correct;
+        document.querySelectorAll(`#tq-${i} .test-choice`).forEach(c=>{if(c.querySelector('span').textContent===q.correct)c.classList.add('reveal-correct');});
+      }else if(sel.querySelector('span').textContent===q.correct){
+        sel.classList.add('correct-ans');fb.className='test-feedback show feedback-correct';fb.textContent='✓ Correct!';score++;
+      }else{
+        sel.classList.add('wrong-ans');
+        document.querySelectorAll(`#tq-${i} .test-choice`).forEach(c=>{if(c.querySelector('span').textContent===q.correct)c.classList.add('reveal-correct');});
+        fb.className='test-feedback show feedback-wrong';fb.textContent='✗ Correct answer shown.';
+      }
+    }
+  });
+  document.getElementById('test-submit-area').style.display='none';
+  const pct=Math.round(score/testQ.length*100);
+  const gc=pct>=90?'grade-a':pct>=75?'grade-b':pct>=60?'grade-c':'grade-d';
+  const gl=pct>=90?'Excellent! 🌟':pct>=75?'Good job! 👍':pct>=60?'Keep studying 📚':'Review the list 🔄';
+  const ra=document.getElementById('test-results-area');ra.style.display='block';
+  ra.innerHTML=`<div class="test-results"><div style="font-size:2.2rem;">${pct>=90?'🎉':pct>=75?'✨':pct>=60?'📖':'💪'}</div><div class="score-big">${score}/${testQ.length}</div><div class="score-label">${pct}% correct</div><div><span class="score-grade ${gc}">${gl}</span></div><div style="margin-top:1.1rem;"><button class="btn btn-outline" onclick="retakeTest()">Retake Test</button></div></div>`;
+  ra.scrollIntoView({behavior:'smooth'});
+  awardXP('test');
+}
+function retakeTest(){document.getElementById('test-results-area').style.display='none';document.getElementById('test-body').innerHTML='';testBuilt=false;buildTest();}
+</script>
+</body>
+</html>
