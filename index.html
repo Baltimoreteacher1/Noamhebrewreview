@@ -469,40 +469,45 @@ body>*{position:relative;z-index:1;}
 .mem-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:0.7rem;}
 .mem-stats{display:flex;gap:1rem;font-size:0.85rem;font-weight:700;}
 .mem-stat-val{color:var(--gold);}
-/* SPEED SORT */
-.ss-prompt{
+/* WORD CATCHER GAME */
+.wc-canvas-wrap{
+  position:relative;border-radius:var(--r2);overflow:hidden;
+  background:linear-gradient(180deg,#060e1f 0%,#0a1a35 60%,#0d2a20 100%);
+  border:1px solid var(--border2);
+  height:420px;margin-bottom:1rem;
+  cursor:none;
+}
+.wc-canvas{display:block;width:100%;height:100%;}
+.wc-hud{
+  position:absolute;top:0;left:0;right:0;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:10px 16px;
+  background:linear-gradient(180deg,rgba(6,14,31,0.9),transparent);
+  pointer-events:none;
+  font-weight:800;font-size:0.85rem;
+}
+.wc-lives{display:flex;gap:5px;}
+.wc-heart{font-size:1rem;transition:all 0.3s;}
+.wc-heart.lost{opacity:0.18;filter:grayscale(1);}
+.wc-target-box{
   background:linear-gradient(145deg,#0d1f38,#1a2d50);
   border:1px solid var(--border2);border-radius:var(--r2);
-  padding:1.5rem;text-align:center;margin-bottom:1rem;
+  padding:1rem 1.4rem;text-align:center;margin-bottom:1rem;
 }
-.ss-heb{font-family:'Rubik',sans-serif;direction:rtl;font-size:3rem;font-weight:700;color:white;margin:0.3rem 0;}
-.ss-img{width:80px;height:60px;object-fit:cover;border-radius:10px;margin:0.5rem auto 0;display:block;opacity:0.7;border:1px solid var(--border2);}
-.ss-timer-bar{height:8px;background:rgba(255,255,255,0.1);border-radius:20px;overflow:hidden;margin-top:0.8rem;}
-.ss-timer-fill{height:100%;background:linear-gradient(90deg,var(--coral),var(--gold),var(--green));border-radius:20px;transition:width 0.1s linear;}
-.ss-bins{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
-.ss-bin{
-  border-radius:var(--r2);border:2px dashed var(--border2);
-  padding:1.2rem 1rem;text-align:center;
-  cursor:pointer;transition:all 0.2s;
-  background:rgba(255,255,255,0.04);min-height:110px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+.wc-target-lbl{font-size:0.7rem;font-weight:800;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;margin-bottom:0.3rem;}
+.wc-target-eng{font-size:1.6rem;font-weight:800;color:white;}
+.wc-target-em{font-size:1.2rem;margin-right:6px;}
+.wc-stats{display:flex;gap:1.2rem;margin-bottom:0.7rem;font-size:0.85rem;font-weight:700;flex-wrap:wrap;}
+.wc-stat-val{color:var(--gold);}
+.wc-overlay{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:rgba(6,14,31,0.88);border-radius:var(--r2);
+  text-align:center;padding:2rem;
 }
-.ss-bin:hover{border-color:var(--teal);background:rgba(0,201,184,0.08);}
-.ss-bin.flash-ok{animation:flash-ok 0.4s;}
-.ss-bin.flash-no{animation:flash-no 0.4s;}
-@keyframes flash-ok{0%,100%{background:rgba(6,214,160,0.08)}50%{background:rgba(6,214,160,0.28);border-color:var(--green);}}
-@keyframes flash-no{0%,100%{background:rgba(255,107,107,0.06)}50%{background:rgba(255,107,107,0.25);border-color:var(--coral);}}
-.ss-bin-label{font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);}
-.ss-bin-word{font-size:1rem;font-weight:800;color:white;}
-.ss-stats{display:flex;gap:1.2rem;margin-bottom:0.7rem;flex-wrap:wrap;font-size:0.85rem;font-weight:700;}
-.ss-stat-val{color:var(--gold);}
-.ss-done-banner{
-  text-align:center;padding:1.2rem;
-  background:linear-gradient(135deg,rgba(6,214,160,0.15),rgba(0,201,184,0.1));
-  border:1px solid rgba(6,214,160,0.4);
-  border-radius:14px;font-weight:800;color:var(--green);
-  font-size:1rem;display:none;
-}
+.wc-overlay h3{font-family:'Rubik',sans-serif;font-size:1.5rem;font-weight:900;color:white;margin-bottom:0.5rem;}
+.wc-overlay p{color:var(--muted);font-size:0.88rem;margin-bottom:1.2rem;}
+
 
 /* =============================================
    HANGMAN — DARK NEON
@@ -853,7 +858,7 @@ body>*{position:relative;z-index:1;}
       <button class="tab-btn"     onclick="goTab('match',this)">🔗 Match</button>
       <button class="tab-btn"     onclick="goTab('type',this)">⌨️ Translate</button>
       <button class="tab-btn"     onclick="goTab('scr',this)">🔀 Scramble</button>
-      <button class="tab-btn"     onclick="goTab('mem',this)">⚡ Speed Sort</button>
+      <button class="tab-btn"     onclick="goTab('mem',this)">🎯 Word Catcher</button>
       <button class="tab-btn"     onclick="goTab('hang',this)">🪢 Hangman</button>
       <button class="tab-btn"     onclick="goTab('quiz',this)">⚡ Quiz</button>
       <button class="tab-btn"     onclick="goTab('bb',this)">⚾ Baseball</button>
@@ -985,27 +990,34 @@ body>*{position:relative;z-index:1;}
 </div>
 </div>
 
-<!-- ===================== SPEED SORT ===================== -->
+<!-- ===================== WORD CATCHER ===================== -->
 <div class="tab-panel" id="tab-mem">
 <div class="page">
-  <div class="section-head"><h2>⚡ Speed Sort</h2><p>A Hebrew word appears — click the correct English category bin before time runs out!</p></div>
-  <div class="ss-stats">
-    <span>✅ Correct: <span class="ss-stat-val" id="ss-correct">0</span></span>
-    <span>❌ Wrong: <span class="ss-stat-val" id="ss-wrong">0</span></span>
-    <span>🔥 Streak: <span class="ss-stat-val" id="ss-streak">0</span></span>
-    <span>📦 Left: <span class="ss-stat-val" id="ss-left">15</span></span>
-    <button class="btn btn-ghost btn-sm" style="margin-left:auto;" onclick="initSpeedSort()">🔄 Restart</button>
+  <div class="section-head"><h2>🎯 Word Catcher</h2><p>Hebrew words fall from the sky — click the one that matches the English target before it hits the ground!</p></div>
+  <div class="wc-stats">
+    <span>✅ Caught: <span class="wc-stat-val" id="wc-caught">0</span></span>
+    <span>❌ Missed: <span class="wc-stat-val" id="wc-missed">0</span></span>
+    <span>🔥 Streak: <span class="wc-stat-val" id="wc-streak">0</span></span>
+    <span>⭐ Score: <span class="wc-stat-val" id="wc-score">0</span></span>
+    <button class="btn btn-ghost btn-sm" style="margin-left:auto;" onclick="wcRestart()">🔄 Restart</button>
   </div>
-  <div class="prog-track-sm"><div class="prog-fill-sm" id="ss-prog" style="width:0%"></div></div>
-  <div class="ss-prompt">
-    <div style="font-size:0.72rem;font-weight:800;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;">Which category fits this word?</div>
-    <div class="ss-heb" id="ss-heb">—</div>
-    <img class="ss-img" id="ss-img" src="" alt="" onerror="this.style.display='none'">
-    <div class="ss-timer-bar"><div class="ss-timer-fill" id="ss-timer-fill" style="width:100%"></div></div>
+  <div class="wc-target-box">
+    <div class="wc-target-lbl">Catch the Hebrew word for:</div>
+    <div><span class="wc-target-em" id="wc-em">🎯</span><span class="wc-target-eng" id="wc-target">—</span></div>
   </div>
-  <div class="ss-bins" id="ss-bins"></div>
-  <div class="fb-box" id="ss-fb"></div>
-  <div class="ss-done-banner" id="ss-done">🎉 All sorted! <button class="btn btn-teal btn-sm" style="margin-left:8px;" onclick="initSpeedSort()">Play Again</button></div>
+  <div class="wc-canvas-wrap" id="wc-wrap">
+    <canvas class="wc-canvas" id="wc-canvas"></canvas>
+    <div class="wc-hud">
+      <div class="wc-lives" id="wc-lives"></div>
+      <div style="color:var(--gold);font-size:0.8rem;" id="wc-level-lbl">Level 1</div>
+    </div>
+    <div class="wc-overlay" id="wc-overlay">
+      <h3>🎯 Word Catcher</h3>
+      <p>Hebrew words fall from the sky.<br>Click the one matching the English target!<br>Miss 3 = game over.</p>
+      <button class="btn btn-teal" onclick="wcStart()">Start Game ▶</button>
+    </div>
+  </div>
+  <div class="fb-box" id="wc-fb"></div>
 </div>
 </div>
 
@@ -1169,7 +1181,7 @@ function updateHero(){
 }
 function resetAll(){
   xp=0;done={};save();updateHero();
-  initMatch();buildType();buildScr(true);initSpeedSort();initHM(true);initQuiz();initBB();
+  initMatch();buildType();buildScr(true);wcRestart();initHM(true);initQuiz();initBB();
   document.getElementById('test-results').style.display='none';
   document.getElementById('test-body').innerHTML='';
   document.getElementById('test-submit-wrap').style.display='none';
@@ -1199,7 +1211,7 @@ function goTab(id,btn){
   if(btn)btn.classList.add('on');
   if(id==='test'&&!testBuilt)buildTest();
   if(id==='scr'&&!scrBuilt)buildScr();
-  if(id==='mem')initSpeedSort();
+  if(id==='mem'){if(!wcCanvas)wcInit();else wcResize();}
   if(id==='bb')initBB();
   if(id==='hang')initHM();
   window.scrollTo({top:0,behavior:'smooth'});
@@ -1398,130 +1410,300 @@ function nextScr(){
 }
 
 /* ============================================================
-   SPEED SORT
-   Show a Hebrew word; player clicks the correct English category bin.
-   Categories are two random English meanings (one correct, one distractor).
-   New bins every 3 words to keep it fresh.
+   WORD CATCHER GAME
+   Hebrew words fall from a canvas; player clicks the correct one.
+   Target shown above canvas. 3 lives. Speed increases each level.
 ============================================================ */
-// Category definitions: broad semantic buckets
-const SS_CATEGORIES = [
-  {label:'People & Family',    em:'👨‍👩‍👧', words:['write (m.s.)','write (f.s.)','grandfather','grandmother']},
-  {label:'Feelings & Quality', em:'💬', words:['thank you very much!','good','so so','okay, alright','nice, beautiful']},
-  {label:'Places & Things',    em:'🗺️', words:['city','sea','street','Torah, Chumash']},
-  {label:'Describing Things',  em:'🔖', words:['old','new','nice, beautiful']},
-];
-// Flatten: each vocab word → which category it belongs to
-function getSsCategory(w){
-  for(const cat of SS_CATEGORIES){
-    if(cat.words.includes(w.e)) return cat;
-  }
-  return SS_CATEGORIES[SS_CATEGORIES.length-1];
+let wcState='idle', wcCaught=0, wcMissed=0, wcStreak=0, wcScore=0;
+let wcLives=3, wcLevel=1, wcRaf=null, wcWords=[], wcTarget=null;
+let wcQueue=[], wcLastSpawn=0, wcSpawnInterval=2200, wcFallSpeed=1.2;
+let wcCanvas=null, wcCtx=null, wcWrap=null;
+let wcParticles=[];
+
+const WC_FONT_SIZE=22;
+const WC_COLORS=['#00c9b8','#ffd166','#9b5de5','#48cae4','#ff6b6b','#06d6a0'];
+
+
+if(!CanvasRenderingContext2D.prototype.roundRect){
+  CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){
+    this.beginPath();this.moveTo(x+r,y);this.lineTo(x+w-r,y);
+    this.quadraticCurveTo(x+w,y,x+w,y+r);this.lineTo(x+w,y+h-r);
+    this.quadraticCurveTo(x+w,y+h,x+w-r,y+h);this.lineTo(x+r,y+h);
+    this.quadraticCurveTo(x,y+h,x,y+h-r);this.lineTo(x,y+r);
+    this.quadraticCurveTo(x,y,x+r,y);this.closePath();
+  };
+}
+function wcInit(){
+  wcCanvas=document.getElementById('wc-canvas');
+  wcCtx=wcCanvas.getContext('2d');
+  wcWrap=document.getElementById('wc-wrap');
+  wcResize();
+  window.addEventListener('resize',wcResize);
+  wcCanvas.addEventListener('click',wcClick);
+  wcCanvas.addEventListener('touchend',e=>{e.preventDefault();const t=e.changedTouches[0];
+    const r=wcCanvas.getBoundingClientRect();wcHandleClick(t.clientX-r.left,t.clientY-r.top);
+  },{passive:false});
+  wcDrawIdle();
 }
 
-let ssQueue=[],ssIdx=0,ssCorrect=0,ssWrong=0,ssStreak=0,ssTimer=null,ssAnswered=false;
-let ssBinA=null,ssBinB=null;
-
-function initSpeedSort(){
-  clearInterval(ssTimer);
-  ssQueue=shuffle([...vocab]);ssIdx=0;ssCorrect=0;ssWrong=0;ssStreak=0;ssAnswered=false;
-  document.getElementById('ss-done').style.display='none';
-  hideFb('ss-fb');
-  updateSSStats();
-  pickSSBins();
-  showSSWord();
+function wcResize(){
+  if(!wcCanvas)return;
+  const r=wcWrap.getBoundingClientRect();
+  wcCanvas.width=r.width;wcCanvas.height=r.height||420;
 }
 
-function pickSSBins(){
-  // Pick two categories that are different; correct one must contain current word
-  const w=ssQueue[ssIdx];
-  const correctCat=getSsCategory(w);
-  const others=SS_CATEGORIES.filter(c=>c.label!==correctCat.label);
-  const wrongCat=shuffle(others)[0];
-  const pair=shuffle([correctCat,wrongCat]);
-  ssBinA=pair[0];ssBinB=pair[1];
-  renderSSBins();
+function wcDrawIdle(){
+  if(!wcCtx)return;
+  wcCtx.clearRect(0,0,wcCanvas.width,wcCanvas.height);
 }
 
-function renderSSBins(){
-  const wrap=document.getElementById('ss-bins');wrap.innerHTML='';
-  [ssBinA,ssBinB].forEach((cat,idx)=>{
-    const d=document.createElement('div');
-    d.className='ss-bin';
-    d.innerHTML=`<div style="font-size:2rem;">${cat.em}</div>
-      <div class="ss-bin-label">${cat.label}</div>
-      <div class="ss-bin-word">${shuffle(cat.words.filter(we=>vocab.some(v=>v.e===we))).slice(0,2).join(', ')}</div>`;
-    d.onclick=()=>answerSS(cat,d);
-    wrap.appendChild(d);
+function wcStart(){
+  document.getElementById('wc-overlay').style.display='none';
+  wcCaught=0;wcMissed=0;wcStreak=0;wcScore=0;wcLives=3;wcLevel=1;
+  wcWords=[];wcParticles=[];wcQueue=shuffle([...vocab]);wcLastSpawn=0;
+  wcSpawnInterval=2200;wcFallSpeed=1.2;
+  wcPickTarget();wcUpdateHUD();wcUpdateStats();
+  wcState='playing';
+  if(wcRaf)cancelAnimationFrame(wcRaf);
+  wcLoop(performance.now());
+}
+
+function wcRestart(){
+  if(wcRaf)cancelAnimationFrame(wcRaf);
+  wcState='idle';wcWords=[];wcParticles=[];
+  document.getElementById('wc-overlay').style.display='flex';
+  document.getElementById('wc-overlay').innerHTML=`
+    <h3>🎯 Word Catcher</h3>
+    <p>Hebrew words fall from the sky.<br>Click the one matching the English target!<br>Miss 3 = game over.</p>
+    <button class="btn btn-teal" onclick="wcStart()">Start Game ▶</button>`;
+  hideFb('wc-fb');
+  wcCaught=0;wcMissed=0;wcStreak=0;wcScore=0;
+  wcUpdateStats();
+  document.getElementById('wc-lives').innerHTML='';
+  document.getElementById('wc-level-lbl').textContent='Level 1';
+  document.getElementById('wc-target').textContent='—';
+  document.getElementById('wc-em').textContent='🎯';
+  if(wcCtx)wcCtx.clearRect(0,0,wcCanvas.width,wcCanvas.height);
+}
+
+function wcPickTarget(){
+  if(!wcQueue.length)wcQueue=shuffle([...vocab]);
+  wcTarget=wcQueue.pop();
+  document.getElementById('wc-target').textContent=wcTarget.e;
+  document.getElementById('wc-em').textContent=wcTarget.em;
+}
+
+function wcSpawnWord(ts){
+  if(ts-wcLastSpawn<wcSpawnInterval)return;
+  wcLastSpawn=ts;
+  const W=wcCanvas.width;
+  // spawn correct word 40% of time, distractor 60%
+  const isCorrect=Math.random()<0.4;
+  const word=isCorrect?wcTarget:shuffle(vocab.filter(v=>v.e!==wcTarget.e))[0];
+  const margin=60;
+  const x=margin+Math.random()*(W-margin*2);
+  const colorIdx=Math.floor(Math.random()*WC_COLORS.length);
+  wcWords.push({
+    w:word, x, y:-30,
+    speed:wcFallSpeed*(0.85+Math.random()*0.3),
+    color:WC_COLORS[colorIdx],
+    isCorrect,
+    alpha:1, caught:false, missed:false,
+    wobble:Math.random()*Math.PI*2,
+    wobbleSpeed:0.015+Math.random()*0.01,
+    scale:1,
   });
-}
-
-function showSSWord(){
-  if(ssIdx>=ssQueue.length){
-    clearInterval(ssTimer);
-    document.getElementById('ss-done').style.display='block';
-    document.getElementById('ss-heb').textContent='🎉';
-    document.getElementById('ss-img').style.display='none';
-    awardXP('mem');
-    return;
+  // Also sometimes spawn a second distractor simultaneously
+  if(Math.random()<0.35&&wcWords.length<6){
+    const d=shuffle(vocab.filter(v=>v.e!==wcTarget.e&&(!word||v.e!==word.e)))[0];
+    const x2=margin+Math.random()*(W-margin*2);
+    wcWords.push({
+      w:d, x:x2, y:-60,
+      speed:wcFallSpeed*(0.85+Math.random()*0.3),
+      color:WC_COLORS[Math.floor(Math.random()*WC_COLORS.length)],
+      isCorrect:false, alpha:1, caught:false, missed:false,
+      wobble:Math.random()*Math.PI*2, wobbleSpeed:0.015+Math.random()*0.01, scale:1,
+    });
   }
-  ssAnswered=false;hideFb('ss-fb');
-  const w=ssQueue[ssIdx];
-  document.getElementById('ss-heb').textContent=w.h;
-  const img=document.getElementById('ss-img');img.src=w.img;img.style.display='block';
-  // Refresh bins every 3 words
-  if(ssIdx%3===0) pickSSBins();
-  else renderSSBins();
-  updateSSStats();
-  startSSTimer();
 }
 
-function startSSTimer(){
-  clearInterval(ssTimer);
-  const fill=document.getElementById('ss-timer-fill');
-  const DURATION=6000;let elapsed=0;
-  fill.style.transition='none';fill.style.width='100%';
-  void fill.offsetWidth;
-  fill.style.transition=`width ${DURATION}ms linear`;
-  fill.style.width='0%';
-  ssTimer=setInterval(()=>{
-    elapsed+=100;
-    if(elapsed>=DURATION&&!ssAnswered){
-      clearInterval(ssTimer);
-      // time out = wrong
-      ssWrong++;ssStreak=0;updateSSStats();
-      showFb('ss-fb','⏱ Too slow! The correct category: '+getSsCategory(ssQueue[ssIdx]).label,false);
-      setTimeout(()=>{ssIdx++;showSSWord();},1800);
+function wcLoop(ts){
+  if(wcState!=='playing'){wcRaf=null;return;}
+  const W=wcCanvas.width, H=wcCanvas.height;
+  wcCtx.clearRect(0,0,W,H);
+
+  // Draw starfield
+  wcDrawStars(ts);
+
+  // Spawn
+  wcSpawnWord(ts);
+
+  // Update + draw words
+  for(let i=wcWords.length-1;i>=0;i--){
+    const fw=wcWords[i];
+    fw.y+=fw.speed;
+    fw.wobble+=fw.wobbleSpeed;
+    const wx=fw.x+Math.sin(fw.wobble)*4;
+
+    // Check floor
+    if(!fw.caught&&!fw.missed&&fw.y>H+30){
+      if(fw.isCorrect){
+        // missed the correct word
+        fw.missed=true;
+        wcMissLive();
+        wcSpawnFail(wx,H-10);
+      }
+      wcWords.splice(i,1);
+      continue;
     }
-  },100);
-}
 
-function answerSS(cat,binEl){
-  if(ssAnswered)return;ssAnswered=true;clearInterval(ssTimer);
-  const w=ssQueue[ssIdx];
-  const correct=getSsCategory(w);
-  if(cat.label===correct.label){
-    binEl.classList.add('flash-ok');ssCorrect++;ssStreak++;
-    showFb('ss-fb','✓ Correct! "'+w.e+'" → '+correct.label,true);
-  }else{
-    binEl.classList.add('flash-no');ssWrong++;ssStreak=0;
-    showFb('ss-fb','✗ Wrong! "'+w.e+'" belongs to: '+correct.label,false);
+    // Draw pill + text
+    if(!fw.caught){
+      wcCtx.save();
+      wcCtx.globalAlpha=fw.alpha;
+      const txt=fw.w.h;
+      wcCtx.font=`bold ${WC_FONT_SIZE}px 'Rubik','Arial',sans-serif`;
+      const tw=wcCtx.measureText(txt).width;
+      const pw=tw+28, ph=40, px=wx-pw/2, py=fw.y-ph/2;
+      // pill bg
+      wcCtx.beginPath();
+      wcCtx.roundRect(px,py,pw,ph,20);
+      wcCtx.fillStyle=fw.color+'33';
+      wcCtx.fill();
+      wcCtx.strokeStyle=fw.color;
+      wcCtx.lineWidth=2;
+      wcCtx.stroke();
+      // text (RTL Hebrew)
+      wcCtx.fillStyle=fw.color;
+      wcCtx.textAlign='center';
+      wcCtx.textBaseline='middle';
+      wcCtx.direction='rtl';
+      wcCtx.fillText(txt,wx,fw.y);
+      wcCtx.direction='ltr';
+      wcCtx.restore();
+      fw._bounds={x:px,y:py,w:pw,h:ph};
+    }
   }
-  updateSSStats();
-  setTimeout(()=>{
-    binEl.classList.remove('flash-ok','flash-no');
-    ssIdx++;showSSWord();
-  },1400);
+
+  // Particles
+  wcUpdateParticles();
+
+  wcRaf=requestAnimationFrame(wcLoop);
 }
 
-function updateSSStats(){
-  document.getElementById('ss-correct').textContent=ssCorrect;
-  document.getElementById('ss-wrong').textContent=ssWrong;
-  document.getElementById('ss-streak').textContent=ssStreak;
-  document.getElementById('ss-left').textContent=Math.max(0,ssQueue.length-ssIdx);
-  const done=ssIdx;const total=ssQueue.length;
-  document.getElementById('ss-prog').style.width=(done/total*100)+'%';
+// simple star cache
+let wcStars=null;
+function wcDrawStars(ts){
+  if(!wcStars){
+    wcStars=[];
+    for(let i=0;i<55;i++) wcStars.push({x:Math.random()*2000,y:Math.random()*500,r:Math.random()*1.4+0.3,sp:Math.random()*0.2+0.05});
+  }
+  const W=wcCanvas.width,H=wcCanvas.height;
+  wcCtx.save();
+  wcStars.forEach(s=>{
+    s.y=(s.y+s.sp)%H;
+    const alpha=0.15+0.15*Math.sin(ts*0.001+s.x);
+    wcCtx.beginPath();wcCtx.arc(s.x%W,s.y,s.r,0,Math.PI*2);
+    wcCtx.fillStyle=`rgba(255,255,255,${alpha})`;wcCtx.fill();
+  });
+  wcCtx.restore();
 }
-initSpeedSort();
+
+function wcSpawnParticles(x,y,color,count){
+  for(let i=0;i<count;i++){
+    const angle=Math.random()*Math.PI*2;
+    const speed=2+Math.random()*4;
+    wcParticles.push({x,y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,color,alpha:1,size:3+Math.random()*4});
+  }
+}
+function wcSpawnFail(x,y){
+  wcSpawnParticles(x,y,'#ff6b6b',8);
+}
+function wcUpdateParticles(){
+  for(let i=wcParticles.length-1;i>=0;i--){
+    const p=wcParticles[i];
+    p.x+=p.vx;p.y+=p.vy;p.vy+=0.15;p.alpha-=0.035;p.size*=0.96;
+    if(p.alpha<=0){wcParticles.splice(i,1);continue;}
+    wcCtx.save();wcCtx.globalAlpha=p.alpha;
+    wcCtx.beginPath();wcCtx.arc(p.x,p.y,p.size,0,Math.PI*2);
+    wcCtx.fillStyle=p.color;wcCtx.fill();wcCtx.restore();
+  }
+}
+
+function wcClick(e){
+  if(wcState!=='playing')return;
+  const r=wcCanvas.getBoundingClientRect();
+  wcHandleClick(e.clientX-r.left,e.clientY-r.top);
+}
+function wcHandleClick(mx,my){
+  if(wcState!=='playing')return;
+  for(let i=wcWords.length-1;i>=0;i--){
+    const fw=wcWords[i];if(fw.caught||fw.missed||!fw._bounds)continue;
+    const b=fw._bounds;
+    if(mx>=b.x&&mx<=b.x+b.w&&my>=b.y&&my<=b.y+b.h){
+      if(fw.isCorrect){
+        // ✓ caught!
+        fw.caught=true;
+        wcSpawnParticles(fw.x,fw.y,fw.color,14);
+        wcWords.splice(i,1);
+        wcCaught++;wcStreak++;
+        const bonus=Math.min(wcStreak,5);
+        wcScore+=10+bonus*2;
+        showFb('wc-fb','✓ Caught! "'+wcTarget.h+'" = '+wcTarget.e+(wcStreak>=3?' 🔥 x'+wcStreak:''),true);
+        wcUpdateStats();
+        // level up every 5 caught
+        if(wcCaught>0&&wcCaught%5===0){
+          wcLevel++;wcFallSpeed=Math.min(1.2+wcLevel*0.25,3.5);
+          wcSpawnInterval=Math.max(1000,2200-wcLevel*180);
+          document.getElementById('wc-level-lbl').textContent='Level '+wcLevel;
+        }
+        wcPickTarget();
+        if(wcCaught>=vocab.length){wcGameEnd(true);}
+      }else{
+        // wrong word clicked
+        fw.caught=true;
+        wcSpawnParticles(fw.x,fw.y,'#ff6b6b',8);
+        wcWords.splice(i,1);
+        wcMissLive();
+        showFb('wc-fb','✗ Wrong! You need: "'+wcTarget.h+'"',false);
+      }
+      return;
+    }
+  }
+}
+
+function wcMissLive(){
+  wcMissed++;wcStreak=0;wcLives--;
+  wcUpdateStats();wcUpdateHUD();
+  if(wcLives<=0) wcGameEnd(false);
+}
+
+function wcUpdateStats(){
+  document.getElementById('wc-caught').textContent=wcCaught;
+  document.getElementById('wc-missed').textContent=wcMissed;
+  document.getElementById('wc-streak').textContent=wcStreak;
+  document.getElementById('wc-score').textContent=wcScore;
+}
+function wcUpdateHUD(){
+  const lv=document.getElementById('wc-lives');
+  lv.innerHTML='';
+  for(let i=0;i<3;i++){const h=document.createElement('span');h.className='wc-heart'+(i>=wcLives?' lost':'');h.textContent='❤️';lv.appendChild(h);}
+}
+function wcGameEnd(won){
+  wcState='over';
+  if(wcRaf)cancelAnimationFrame(wcRaf);
+  if(won||wcScore>=50) awardXP('mem');
+  const ov=document.getElementById('wc-overlay');
+  ov.style.display='flex';
+  ov.innerHTML=`
+    <h3>${won?'🏆 Complete!':'💀 Game Over'}</h3>
+    <p>Score: <strong style="color:var(--gold)">${wcScore}</strong> &nbsp;|&nbsp; Caught: <strong style="color:var(--teal)">${wcCaught}</strong> &nbsp;|&nbsp; Streak best: <strong>${wcStreak}</strong></p>
+    <button class="btn btn-teal" onclick="wcStart()" style="margin-top:0.5rem;">Play Again ▶</button>`;
+}
+
+// Initialize on load (but don't start — show overlay)
+document.addEventListener('DOMContentLoaded',()=>{setTimeout(wcInit,100);});
+
 
 /* ============================================================
    HANGMAN
