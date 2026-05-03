@@ -469,54 +469,34 @@ body>*{position:relative;z-index:1;}
 .mem-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:0.7rem;}
 .mem-stats{display:flex;gap:1rem;font-size:0.85rem;font-weight:700;}
 .mem-stat-val{color:var(--gold);}
-.mem-board{
-  display:grid;gap:8px;
-  margin-bottom:1rem;
+/* SPEED SORT */
+.ss-prompt{
+  background:linear-gradient(145deg,#0d1f38,#1a2d50);
+  border:1px solid var(--border2);border-radius:var(--r2);
+  padding:1.5rem;text-align:center;margin-bottom:1rem;
 }
-.mem-card{
-  border-radius:14px;overflow:hidden;
-  cursor:pointer;
-  transform-style:preserve-3d;
-  transition:transform 0.4s cubic-bezier(.4,0,.2,1);
-  position:relative;
-  aspect-ratio:1/1.1;
+.ss-heb{font-family:'Rubik',sans-serif;direction:rtl;font-size:3rem;font-weight:700;color:white;margin:0.3rem 0;}
+.ss-img{width:80px;height:60px;object-fit:cover;border-radius:10px;margin:0.5rem auto 0;display:block;opacity:0.7;border:1px solid var(--border2);}
+.ss-timer-bar{height:8px;background:rgba(255,255,255,0.1);border-radius:20px;overflow:hidden;margin-top:0.8rem;}
+.ss-timer-fill{height:100%;background:linear-gradient(90deg,var(--coral),var(--gold),var(--green));border-radius:20px;transition:width 0.1s linear;}
+.ss-bins{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+.ss-bin{
+  border-radius:var(--r2);border:2px dashed var(--border2);
+  padding:1.2rem 1rem;text-align:center;
+  cursor:pointer;transition:all 0.2s;
+  background:rgba(255,255,255,0.04);min-height:110px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
 }
-.mem-card.revealed{transform:rotateY(180deg);}
-.mem-card.matched{transform:rotateY(180deg);}
-.mem-face{
-  position:absolute;inset:0;
-  backface-visibility:hidden;
-  display:flex;align-items:center;justify-content:center;
-  border-radius:14px;
-  flex-direction:column;gap:4px;padding:8px;
-  text-align:center;
-}
-.mem-back{
-  background:linear-gradient(145deg,#1a3558,#0d2040);
-  border:1.5px solid rgba(0,201,184,0.25);
-  font-size:1.5rem;
-}
-.mem-front{
-  background:linear-gradient(145deg,#001a19,#003030);
-  border:1.5px solid rgba(0,201,184,0.5);
-  transform:rotateY(180deg);
-}
-.mem-front.heb-face{
-  background:linear-gradient(145deg,#1a0d38,#2d1060);
-  border:1.5px solid rgba(155,93,229,0.5);
-}
-.mem-card.matched .mem-front{
-  border-color:var(--green);
-  background:linear-gradient(145deg,rgba(6,214,160,0.15),rgba(0,100,80,0.2));
-}
-.mem-front-img{width:100%;height:60%;object-fit:cover;border-radius:8px;opacity:0.85;}
-.mem-front-txt{font-size:0.72rem;font-weight:700;color:var(--text);line-height:1.2;}
-.mem-front-heb{font-family:'Rubik',sans-serif;direction:rtl;font-size:1.3rem;font-weight:700;color:white;}
-.mem-back-icon{font-size:2rem;}
-.mem-back-lbl{font-size:0.6rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;}
-.mem-wrong-flash .mem-front{animation:mem-wrong 0.4s;}
-@keyframes mem-wrong{0%,100%{border-color:rgba(155,93,229,0.5)}50%{border-color:var(--coral);background:rgba(255,107,107,0.2);}}
-.mem-success-msg{
+.ss-bin:hover{border-color:var(--teal);background:rgba(0,201,184,0.08);}
+.ss-bin.flash-ok{animation:flash-ok 0.4s;}
+.ss-bin.flash-no{animation:flash-no 0.4s;}
+@keyframes flash-ok{0%,100%{background:rgba(6,214,160,0.08)}50%{background:rgba(6,214,160,0.28);border-color:var(--green);}}
+@keyframes flash-no{0%,100%{background:rgba(255,107,107,0.06)}50%{background:rgba(255,107,107,0.25);border-color:var(--coral);}}
+.ss-bin-label{font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);}
+.ss-bin-word{font-size:1rem;font-weight:800;color:white;}
+.ss-stats{display:flex;gap:1.2rem;margin-bottom:0.7rem;flex-wrap:wrap;font-size:0.85rem;font-weight:700;}
+.ss-stat-val{color:var(--gold);}
+.ss-done-banner{
   text-align:center;padding:1.2rem;
   background:linear-gradient(135deg,rgba(6,214,160,0.15),rgba(0,201,184,0.1));
   border:1px solid rgba(6,214,160,0.4);
@@ -542,7 +522,7 @@ body>*{position:relative;z-index:1;}
 .hm-unit-tag{font-size:0.7rem;color:var(--muted);text-align:center;margin-bottom:0.8rem;font-weight:700;}
 .hm-word-row{
   display:flex;gap:8px;justify-content:center;flex-wrap:wrap;
-  direction:rtl;margin-bottom:1rem;
+  direction:rtl;margin-bottom:1rem;unicode-bidi:bidi-override;
 }
 .hm-letter-slot{
   width:40px;height:48px;
@@ -873,7 +853,7 @@ body>*{position:relative;z-index:1;}
       <button class="tab-btn"     onclick="goTab('match',this)">🔗 Match</button>
       <button class="tab-btn"     onclick="goTab('type',this)">⌨️ Translate</button>
       <button class="tab-btn"     onclick="goTab('scr',this)">🔀 Scramble</button>
-      <button class="tab-btn"     onclick="goTab('mem',this)">🧠 Memory Flip</button>
+      <button class="tab-btn"     onclick="goTab('mem',this)">⚡ Speed Sort</button>
       <button class="tab-btn"     onclick="goTab('hang',this)">🪢 Hangman</button>
       <button class="tab-btn"     onclick="goTab('quiz',this)">⚡ Quiz</button>
       <button class="tab-btn"     onclick="goTab('bb',this)">⚾ Baseball</button>
@@ -991,7 +971,7 @@ body>*{position:relative;z-index:1;}
     <div class="scr-content">
       <div class="scr-lbl">Spell the Hebrew for:</div>
       <div class="scr-eng" id="scr-eng"></div>
-      <div class="slot-row" id="scr-slots"></div>
+      <div class="slot-row" id="scr-slots" style="direction:rtl;"></div>
       <div class="tile-row" id="scr-tiles"></div>
       <div class="scr-btns">
         <button class="btn btn-ghost btn-sm" onclick="clearScr()">↺ Clear</button>
@@ -1005,21 +985,27 @@ body>*{position:relative;z-index:1;}
 </div>
 </div>
 
-<!-- ===================== MEMORY FLIP ===================== -->
+<!-- ===================== SPEED SORT ===================== -->
 <div class="tab-panel" id="tab-mem">
 <div class="page">
-  <div class="section-head"><h2>🧠 Memory Flip</h2><p>Find matching Hebrew–English pairs. Flip two cards — if they match, they stay open!</p></div>
-  <div class="mem-header">
-    <div class="mem-stats">
-      <span>⏱ <span id="mem-moves">0</span> moves</span>
-      <span>✅ <span id="mem-matched">0</span>/<span id="mem-total">6</span> pairs</span>
-      <span>🔥 <span id="mem-streak">0</span> streak</span>
-    </div>
-    <button class="btn btn-ghost btn-sm" onclick="initMemory()">🔄 New Game</button>
+  <div class="section-head"><h2>⚡ Speed Sort</h2><p>A Hebrew word appears — click the correct English category bin before time runs out!</p></div>
+  <div class="ss-stats">
+    <span>✅ Correct: <span class="ss-stat-val" id="ss-correct">0</span></span>
+    <span>❌ Wrong: <span class="ss-stat-val" id="ss-wrong">0</span></span>
+    <span>🔥 Streak: <span class="ss-stat-val" id="ss-streak">0</span></span>
+    <span>📦 Left: <span class="ss-stat-val" id="ss-left">15</span></span>
+    <button class="btn btn-ghost btn-sm" style="margin-left:auto;" onclick="initSpeedSort()">🔄 Restart</button>
   </div>
-  <div class="prog-track-sm"><div class="prog-fill-sm" id="mem-prog" style="width:0%"></div></div>
-  <div class="mem-board" id="mem-board"></div>
-  <div class="mem-success-msg" id="mem-success">🎉 All pairs found! <button class="btn btn-teal btn-sm" style="margin-left:8px;" onclick="initMemory()">Play Again</button></div>
+  <div class="prog-track-sm"><div class="prog-fill-sm" id="ss-prog" style="width:0%"></div></div>
+  <div class="ss-prompt">
+    <div style="font-size:0.72rem;font-weight:800;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;">Which category fits this word?</div>
+    <div class="ss-heb" id="ss-heb">—</div>
+    <img class="ss-img" id="ss-img" src="" alt="" onerror="this.style.display='none'">
+    <div class="ss-timer-bar"><div class="ss-timer-fill" id="ss-timer-fill" style="width:100%"></div></div>
+  </div>
+  <div class="ss-bins" id="ss-bins"></div>
+  <div class="fb-box" id="ss-fb"></div>
+  <div class="ss-done-banner" id="ss-done">🎉 All sorted! <button class="btn btn-teal btn-sm" style="margin-left:8px;" onclick="initSpeedSort()">Play Again</button></div>
 </div>
 </div>
 
@@ -1183,7 +1169,7 @@ function updateHero(){
 }
 function resetAll(){
   xp=0;done={};save();updateHero();
-  initMatch();buildType();buildScr(true);initMemory();initHM(true);initQuiz();initBB();
+  initMatch();buildType();buildScr(true);initSpeedSort();initHM(true);initQuiz();initBB();
   document.getElementById('test-results').style.display='none';
   document.getElementById('test-body').innerHTML='';
   document.getElementById('test-submit-wrap').style.display='none';
@@ -1213,7 +1199,7 @@ function goTab(id,btn){
   if(btn)btn.classList.add('on');
   if(id==='test'&&!testBuilt)buildTest();
   if(id==='scr'&&!scrBuilt)buildScr();
-  if(id==='mem')initMemory();
+  if(id==='mem')initSpeedSort();
   if(id==='bb')initBB();
   if(id==='hang')initHM();
   window.scrollTo({top:0,behavior:'smooth'});
@@ -1412,86 +1398,130 @@ function nextScr(){
 }
 
 /* ============================================================
-   MEMORY FLIP
+   SPEED SORT
+   Show a Hebrew word; player clicks the correct English category bin.
+   Categories are two random English meanings (one correct, one distractor).
+   New bins every 3 words to keep it fresh.
 ============================================================ */
-let memPairs=[],memFlipped=[],memMatched=new Set(),memMoves=0,memStreak=0,memLocked=false;
-const MEM_SIZE=6;
-function initMemory(){
-  memFlipped=[];memMatched=new Set();memMoves=0;memStreak=0;memLocked=false;
-  document.getElementById('mem-success').style.display='none';
-  document.getElementById('mem-moves').textContent=0;
-  document.getElementById('mem-matched').textContent=0;
-  document.getElementById('mem-streak').textContent=0;
-  document.getElementById('mem-prog').style.width='0%';
-  const words=shuffle([...vocab]).slice(0,MEM_SIZE);
-  document.getElementById('mem-total').textContent=MEM_SIZE;
-  // Each word gets two cards: one English (with image), one Hebrew
-  memPairs=[];
-  words.forEach((w,i)=>{
-    memPairs.push({id:i,type:'eng',w});
-    memPairs.push({id:i,type:'heb',w});
-  });
-  memPairs=shuffle(memPairs);
-  renderMemBoard();
-}
-function renderMemBoard(){
-  const board=document.getElementById('mem-board');
-  const cols=Math.min(4,Math.ceil(Math.sqrt(memPairs.length*1.3)));
-  board.style.gridTemplateColumns=`repeat(${cols},1fr)`;
-  board.innerHTML='';
-  memPairs.forEach((card,idx)=>{
-    const el=document.createElement('div');
-    el.className='mem-card'+(memMatched.has(idx)?' matched':'');
-    if(memMatched.has(idx)||memFlipped.includes(idx))el.classList.add('revealed');
-    const isHeb=card.type==='heb';
-    el.innerHTML=`
-      <div class="mem-face mem-back">
-        <div class="mem-back-icon">🀫</div>
-        <div class="mem-back-lbl">Flip Me</div>
-      </div>
-      <div class="mem-face mem-front ${isHeb?'heb-face':''}">
-        ${isHeb
-          ? `<div class="mem-front-heb">${card.w.h}</div>`
-          : `<img class="mem-front-img" src="${card.w.img}" alt="${card.w.e}" loading="lazy" onerror="this.style.display='none'">
-             <div class="mem-front-txt">${card.w.em} ${card.w.e}</div>`
-        }
-      </div>`;
-    el.onclick=()=>flipMem(idx);
-    board.appendChild(el);
-  });
-}
-function flipMem(idx){
-  if(memLocked)return;
-  if(memMatched.has(idx)||memFlipped.includes(idx))return;
-  if(memFlipped.length>=2)return;
-  memFlipped.push(idx);
-  const cards=document.querySelectorAll('.mem-card');
-  cards[idx].classList.add('revealed');
-  if(memFlipped.length===2){
-    memMoves++;
-    document.getElementById('mem-moves').textContent=memMoves;
-    const [a,b]=memFlipped;
-    const ca=memPairs[a],cb=memPairs[b];
-    if(ca.id===cb.id&&ca.type!==cb.type){
-      // match!
-      setTimeout(()=>{
-        memMatched.add(a);memMatched.add(b);memFlipped=[];memStreak++;
-        document.getElementById('mem-matched').textContent=memMatched.size/2;
-        document.getElementById('mem-streak').textContent=memStreak;
-        document.getElementById('mem-prog').style.width=(memMatched.size/2/MEM_SIZE*100)+'%';
-        renderMemBoard();
-        if(memMatched.size/2===MEM_SIZE){document.getElementById('mem-success').style.display='block';awardXP('mem');}
-      },500);
-    }else{
-      memLocked=true;memStreak=0;document.getElementById('mem-streak').textContent=0;
-      setTimeout(()=>{
-        cards[a].classList.add('mem-wrong-flash');cards[b].classList.add('mem-wrong-flash');
-        setTimeout(()=>{memFlipped=[];memLocked=false;renderMemBoard();},600);
-      },700);
-    }
+// Category definitions: broad semantic buckets
+const SS_CATEGORIES = [
+  {label:'People & Family',    em:'👨‍👩‍👧', words:['write (m.s.)','write (f.s.)','grandfather','grandmother']},
+  {label:'Feelings & Quality', em:'💬', words:['thank you very much!','good','so so','okay, alright','nice, beautiful']},
+  {label:'Places & Things',    em:'🗺️', words:['city','sea','street','Torah, Chumash']},
+  {label:'Describing Things',  em:'🔖', words:['old','new','nice, beautiful']},
+];
+// Flatten: each vocab word → which category it belongs to
+function getSsCategory(w){
+  for(const cat of SS_CATEGORIES){
+    if(cat.words.includes(w.e)) return cat;
   }
+  return SS_CATEGORIES[SS_CATEGORIES.length-1];
 }
-initMemory();
+
+let ssQueue=[],ssIdx=0,ssCorrect=0,ssWrong=0,ssStreak=0,ssTimer=null,ssAnswered=false;
+let ssBinA=null,ssBinB=null;
+
+function initSpeedSort(){
+  clearInterval(ssTimer);
+  ssQueue=shuffle([...vocab]);ssIdx=0;ssCorrect=0;ssWrong=0;ssStreak=0;ssAnswered=false;
+  document.getElementById('ss-done').style.display='none';
+  hideFb('ss-fb');
+  updateSSStats();
+  pickSSBins();
+  showSSWord();
+}
+
+function pickSSBins(){
+  // Pick two categories that are different; correct one must contain current word
+  const w=ssQueue[ssIdx];
+  const correctCat=getSsCategory(w);
+  const others=SS_CATEGORIES.filter(c=>c.label!==correctCat.label);
+  const wrongCat=shuffle(others)[0];
+  const pair=shuffle([correctCat,wrongCat]);
+  ssBinA=pair[0];ssBinB=pair[1];
+  renderSSBins();
+}
+
+function renderSSBins(){
+  const wrap=document.getElementById('ss-bins');wrap.innerHTML='';
+  [ssBinA,ssBinB].forEach((cat,idx)=>{
+    const d=document.createElement('div');
+    d.className='ss-bin';
+    d.innerHTML=`<div style="font-size:2rem;">${cat.em}</div>
+      <div class="ss-bin-label">${cat.label}</div>
+      <div class="ss-bin-word">${shuffle(cat.words.filter(we=>vocab.some(v=>v.e===we))).slice(0,2).join(', ')}</div>`;
+    d.onclick=()=>answerSS(cat,d);
+    wrap.appendChild(d);
+  });
+}
+
+function showSSWord(){
+  if(ssIdx>=ssQueue.length){
+    clearInterval(ssTimer);
+    document.getElementById('ss-done').style.display='block';
+    document.getElementById('ss-heb').textContent='🎉';
+    document.getElementById('ss-img').style.display='none';
+    awardXP('mem');
+    return;
+  }
+  ssAnswered=false;hideFb('ss-fb');
+  const w=ssQueue[ssIdx];
+  document.getElementById('ss-heb').textContent=w.h;
+  const img=document.getElementById('ss-img');img.src=w.img;img.style.display='block';
+  // Refresh bins every 3 words
+  if(ssIdx%3===0) pickSSBins();
+  else renderSSBins();
+  updateSSStats();
+  startSSTimer();
+}
+
+function startSSTimer(){
+  clearInterval(ssTimer);
+  const fill=document.getElementById('ss-timer-fill');
+  const DURATION=6000;let elapsed=0;
+  fill.style.transition='none';fill.style.width='100%';
+  void fill.offsetWidth;
+  fill.style.transition=`width ${DURATION}ms linear`;
+  fill.style.width='0%';
+  ssTimer=setInterval(()=>{
+    elapsed+=100;
+    if(elapsed>=DURATION&&!ssAnswered){
+      clearInterval(ssTimer);
+      // time out = wrong
+      ssWrong++;ssStreak=0;updateSSStats();
+      showFb('ss-fb','⏱ Too slow! The correct category: '+getSsCategory(ssQueue[ssIdx]).label,false);
+      setTimeout(()=>{ssIdx++;showSSWord();},1800);
+    }
+  },100);
+}
+
+function answerSS(cat,binEl){
+  if(ssAnswered)return;ssAnswered=true;clearInterval(ssTimer);
+  const w=ssQueue[ssIdx];
+  const correct=getSsCategory(w);
+  if(cat.label===correct.label){
+    binEl.classList.add('flash-ok');ssCorrect++;ssStreak++;
+    showFb('ss-fb','✓ Correct! "'+w.e+'" → '+correct.label,true);
+  }else{
+    binEl.classList.add('flash-no');ssWrong++;ssStreak=0;
+    showFb('ss-fb','✗ Wrong! "'+w.e+'" belongs to: '+correct.label,false);
+  }
+  updateSSStats();
+  setTimeout(()=>{
+    binEl.classList.remove('flash-ok','flash-no');
+    ssIdx++;showSSWord();
+  },1400);
+}
+
+function updateSSStats(){
+  document.getElementById('ss-correct').textContent=ssCorrect;
+  document.getElementById('ss-wrong').textContent=ssWrong;
+  document.getElementById('ss-streak').textContent=ssStreak;
+  document.getElementById('ss-left').textContent=Math.max(0,ssQueue.length-ssIdx);
+  const done=ssIdx;const total=ssQueue.length;
+  document.getElementById('ss-prog').style.width=(done/total*100)+'%';
+}
+initSpeedSort();
 
 /* ============================================================
    HANGMAN
