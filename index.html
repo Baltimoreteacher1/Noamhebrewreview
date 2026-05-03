@@ -475,9 +475,10 @@ body>*{position:relative;z-index:1;}
   background:linear-gradient(180deg,#060e1f 0%,#0a1a35 60%,#0d2a20 100%);
   border:1px solid var(--border2);
   height:420px;margin-bottom:1rem;
-  cursor:none;
+  cursor:crosshair;
 }
-.wc-canvas{display:block;width:100%;height:100%;}
+.wc-canvas-wrap *{pointer-events:auto;}
+.wc-canvas{display:block;width:100%;height:100%;cursor:crosshair;touch-action:manipulation;}
 .wc-hud{
   position:absolute;top:0;left:0;right:0;
   display:flex;justify-content:space-between;align-items:center;
@@ -1419,6 +1420,7 @@ let wcLives=3, wcLevel=1, wcRaf=null, wcWords=[], wcTarget=null;
 let wcQueue=[], wcLastSpawn=0, wcSpawnInterval=2200, wcFallSpeed=1.2;
 let wcCanvas=null, wcCtx=null, wcWrap=null;
 let wcParticles=[];
+let wcLastPointerDown=0;
 
 const WC_FONT_SIZE=22;
 const WC_COLORS=['#00c9b8','#ffd166','#9b5de5','#48cae4','#ff6b6b','#06d6a0'];
@@ -1439,10 +1441,8 @@ function wcInit(){
   wcWrap=document.getElementById('wc-wrap');
   wcResize();
   window.addEventListener('resize',wcResize);
+  wcCanvas.addEventListener('pointerdown',wcPointerDown,{passive:false});
   wcCanvas.addEventListener('click',wcClick);
-  wcCanvas.addEventListener('touchend',e=>{e.preventDefault();const t=e.changedTouches[0];
-    const r=wcCanvas.getBoundingClientRect();wcHandleClick(t.clientX-r.left,t.clientY-r.top);
-  },{passive:false});
   wcDrawIdle();
 }
 
@@ -1630,17 +1630,33 @@ function wcUpdateParticles(){
   }
 }
 
+function wcCanvasPoint(clientX,clientY){
+  const r=wcCanvas.getBoundingClientRect();
+  const sx=wcCanvas.width/Math.max(r.width,1);
+  const sy=wcCanvas.height/Math.max(r.height,1);
+  return {x:(clientX-r.left)*sx,y:(clientY-r.top)*sy};
+}
+function wcPointerDown(e){
+  if(wcState!=='playing')return;
+  e.preventDefault();
+  wcLastPointerDown=performance.now();
+  const p=wcCanvasPoint(e.clientX,e.clientY);
+  wcHandleClick(p.x,p.y);
+}
 function wcClick(e){
   if(wcState!=='playing')return;
-  const r=wcCanvas.getBoundingClientRect();
-  wcHandleClick(e.clientX-r.left,e.clientY-r.top);
+  // Pointer events already handle modern mouse/touch input; this is only a fallback.
+  if(performance.now()-wcLastPointerDown<350)return;
+  const p=wcCanvasPoint(e.clientX,e.clientY);
+  wcHandleClick(p.x,p.y);
 }
 function wcHandleClick(mx,my){
   if(wcState!=='playing')return;
+  const hitPad=12;
   for(let i=wcWords.length-1;i>=0;i--){
     const fw=wcWords[i];if(fw.caught||fw.missed||!fw._bounds)continue;
     const b=fw._bounds;
-    if(mx>=b.x&&mx<=b.x+b.w&&my>=b.y&&my<=b.y+b.h){
+    if(mx>=b.x-hitPad&&mx<=b.x+b.w+hitPad&&my>=b.y-hitPad&&my<=b.y+b.h+hitPad){
       if(fw.isCorrect){
         // ✓ caught!
         fw.caught=true;
